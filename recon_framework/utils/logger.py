@@ -106,14 +106,14 @@ def print_finding(severity: str, title: str, detail: str = ""):
 def save_json(data: Any, path: str):
     """Save data as JSON."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, default=str)
 
 
 def save_text(content: str, path: str):
     """Save text content to file."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         f.write(content)
 
 
