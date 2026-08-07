@@ -1,231 +1,388 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recon Framework — Dashboard</title>
+<title>ReconSaaS — Security Reconnaissance Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0e17;--bg2:#111827;--bg3:#1a2332;--bg4:#243044;
-  --fg:#e2e8f0;--fg2:#94a3b8;--fg3:#64748b;
-  --accent:#00d4ff;--accent2:#7c3aed;--green:#10b981;--red:#ef4444;
-  --orange:#f59e0b;--yellow:#eab308;
-  --border:#1e293b;--border2:#334155;
-  --mono:'Cascadia Code','Fira Code','JetBrains Mono','Consolas',monospace;
-  --sans:'Inter','Segoe UI',system-ui,sans-serif;
-  --radius:8px;--shadow:0 4px 24px rgba(0,0,0,.4);
+  --bg:#1f1633;--bg2:#150f23;--bg3:#261d40;--bg4:#362d59;
+  --fg:#ffffff;--fg2:#e5e7eb;--fg3:#a5a0b8;--fg4:#6b6386;
+  --accent:#6a5fc1;--accent2:#79628c;--accent3:#422082;
+  --lime:#c2ef4e;--coral:#ffb287;--pink:#fa7faa;
+  --red:#ff6b6b;--orange:#ffb86b;--yellow:#ffe06b;--green:#c2ef4e;
+  --border:#362d59;--border2:#584674;
+  --glass:rgba(255,255,255,.08);--glass2:rgba(255,255,255,.04);
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --sans:'Rubik',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --radius:8px;--radius2:12px;--radius3:13px;
+  --shadow:rgba(0,0,0,.1) 0 10px 15px -3px;
+  --shadow-inset:rgba(0,0,0,.1) 0 1px 3px 0 inset;
+  --shadow-hover:rgba(0,0,0,.18) 0 .5rem 1.5rem;
+  --glow:rgba(22,15,36,.9) 0 4px 4px 9px;
 }
-html{font-size:14px}
-body{background:var(--bg);color:var(--fg);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column}
+html{font-size:14px;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
+::selection{background:var(--accent);color:#fff}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
 
-/* ── Header ───────────────────────────────────────── */
-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:16px}
-header .logo{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--accent);letter-spacing:-.5px}
-header .logo span{color:var(--fg3);font-weight:400}
-header nav{margin-left:auto;display:flex;gap:8px}
-header nav button{background:transparent;border:1px solid var(--border2);color:var(--fg2);padding:6px 14px;border-radius:var(--radius);cursor:pointer;font-size:.85rem;transition:.2s}
-header nav button:hover,header nav button.active{background:var(--bg3);color:var(--accent);border-color:var(--accent)}
+/* ── Header ─────────────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(21,15,35,.85);backdrop-filter:blur(18px) saturate(180%);
+  border-bottom:1px solid var(--border);padding:0 32px;height:56px;
+  display:flex;align-items:center;gap:24px;
+}
+.topbar .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:1.1rem;white-space:nowrap}
+.topbar .logo svg{width:28px;height:28px}
+.topbar .logo .brand{color:var(--fg)}
+.topbar .logo .dot{color:var(--lime)}
+.topbar nav{display:flex;gap:4px;margin-left:32px}
+.topbar nav a{
+  padding:8px 14px;border-radius:var(--radius);font-size:.85rem;font-weight:500;
+  color:var(--fg3);text-decoration:none;transition:.2s;letter-spacing:.2px;
+}
+.topbar nav a:hover{color:var(--fg);background:var(--glass)}
+.topbar nav a.active{color:var(--fg);background:var(--glass)}
+.topbar .spacer{flex:1}
+.topbar .status-pill{
+  display:flex;align-items:center;gap:6px;padding:5px 12px;
+  background:var(--glass);border:1px solid var(--border);border-radius:20px;
+  font-size:.75rem;color:var(--fg3);font-weight:500;
+}
+.topbar .status-dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
 
-/* ── Layout ───────────────────────────────────────── */
-.app{display:flex;flex:1;overflow:hidden}
-.sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);padding:16px;overflow-y:auto;flex-shrink:0}
-.main{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px}
+/* ── Main Layout ────────────────────────────────────────────── */
+.app{display:flex;height:calc(100vh - 56px)}
+.sidebar{
+  width:280px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.sidebar-header{
+  padding:20px 20px 12px;border-bottom:1px solid var(--border);
+}
+.sidebar-header h2{
+  font-size:.7rem;font-weight:600;color:var(--fg4);text-transform:uppercase;
+  letter-spacing:1px;margin-bottom:12px;
+}
+.sidebar-content{flex:1;overflow-y:auto;padding:8px}
+.main-area{flex:1;overflow-y:auto;padding:0}
 
-/* ── Scan form ────────────────────────────────────── */
-.form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:.8rem;color:var(--fg3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-.form-group input,.form-group select{width:100%;background:var(--bg);border:1px solid var(--border2);color:var(--fg);padding:10px 12px;border-radius:var(--radius);font-family:var(--mono);font-size:.9rem;outline:none;transition:.2s}
-.form-group input:focus,.form-group select:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,212,255,.15)}
-.form-group select option{background:var(--bg2)}
-
-.mode-btns{display:flex;gap:6px;margin-bottom:14px}
-.mode-btns button{flex:1;padding:10px;border:1px solid var(--border2);background:var(--bg);color:var(--fg2);border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:.85rem;transition:.2s;text-transform:uppercase;letter-spacing:.5px}
-.mode-btns button:hover{border-color:var(--accent);color:var(--fg)}
-.mode-btns button.active[data-mode="passive"]{background:rgba(59,130,246,.15);border-color:#3b82f6;color:#60a5fa}
-.mode-btns button.active[data-mode="active"]{background:rgba(239,68,68,.15);border-color:#ef4444;color:#f87171}
-.mode-btns button.active[data-mode="hybrid"]{background:rgba(124,58,237,.15);border-color:#7c3aed;color:#a78bfa}
-
-.btn-scan{width:100%;padding:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:var(--radius);font-weight:700;font-size:1rem;cursor:pointer;transition:.2s;text-transform:uppercase;letter-spacing:1px}
-.btn-scan:hover{opacity:.9;transform:translateY(-1px)}
-.btn-scan:disabled{opacity:.4;cursor:not-allowed;transform:none}
-
-/* ── Cards ────────────────────────────────────────── */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.card-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-header h3{font-size:.9rem;font-weight:600;color:var(--fg)}
-.card-body{padding:16px}
-
-/* ── Stats row ────────────────────────────────────── */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
-.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
-.stat .num{font-size:1.8rem;font-weight:700;font-family:var(--mono)}
-.stat .label{font-size:.75rem;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-.stat.critical .num{color:var(--red)}
-.stat.high .num{color:var(--orange)}
-.stat.medium .num{color:var(--yellow)}
-.stat.low .num{color:var(--accent)}
-.stat.info .num{color:var(--fg3)}
-
-/* ── Findings table ───────────────────────────────── */
-.findings-table{width:100%;border-collapse:collapse}
-.findings-table th{text-align:left;font-size:.75rem;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;border-bottom:1px solid var(--border2)}
-.findings-table td{padding:8px 12px;border-bottom:1px solid var(--border);font-size:.85rem}
-.findings-table tr:hover td{background:var(--bg3)}
-.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-.badge.critical{background:rgba(239,68,68,.2);color:#f87171}
-.badge.high{background:rgba(245,158,11,.2);color:#fbbf24}
-.badge.medium{background:rgba(234,179,8,.2);color:#facc15}
-.badge.low{background:rgba(0,212,255,.2);color:#67e8f9}
-.badge.info{background:rgba(100,116,139,.2);color:#94a3b8}
-
-/* ── Log console ──────────────────────────────────── */
-.console{background:#0c0c0c;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--mono);font-size:.8rem;padding:12px;max-height:340px;overflow-y:auto;line-height:1.6;white-space:pre-wrap;word-break:break-all}
-.console .ts{color:var(--fg3)}
-.console .msg{color:var(--green)}
-.console .err{color:var(--red)}
-.console .info{color:var(--accent)}
-
-/* ── Scan history ─────────────────────────────────── */
-.scan-item{padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s;display:flex;justify-content:space-between;align-items:center}
-.scan-item:hover{background:var(--bg3)}
-.scan-item .target{font-family:var(--mono);font-weight:600;color:var(--fg)}
-.scan-item .meta{font-size:.75rem;color:var(--fg3)}
-.scan-item .status{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
-.scan-item .status.running{background:var(--accent);animation:pulse 1s infinite}
-.scan-item .status.completed{background:var(--green)}
-.scan-item .status.error{background:var(--red)}
-.scan-item .status.queued{background:var(--fg3)}
+/* ── Scan History Sidebar ───────────────────────────────────── */
+.history-item{
+  padding:12px 14px;border-radius:var(--radius);cursor:pointer;transition:.15s;
+  margin-bottom:2px;border:1px solid transparent;
+}
+.history-item:hover{background:var(--glass);border-color:var(--border)}
+.history-item.active{background:var(--glass);border-color:var(--accent)}
+.history-item .h-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.history-item .h-status{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.history-item .h-status.running{background:var(--yellow);animation:pulse 1.5s infinite}
+.history-item .h-status.completed{background:var(--green)}
+.history-item .h-status.error{background:var(--red)}
+.history-item .h-status.queued{background:var(--fg4)}
+.history-item .h-target{font-family:var(--mono);font-size:.85rem;font-weight:500;color:var(--fg)}
+.history-item .h-meta{font-size:.72rem;color:var(--fg4);display:flex;gap:10px}
+.history-item .h-count{
+  font-family:var(--mono);font-size:.7rem;padding:1px 6px;
+  background:var(--glass);border-radius:4px;color:var(--fg3);
+}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* ── Tech tags ────────────────────────────────────── */
-.tech-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
-.tech-tag{background:var(--bg4);border:1px solid var(--border2);padding:2px 8px;border-radius:4px;font-size:.75rem;font-family:var(--mono);color:var(--accent)}
-
-/* ── Tabs ─────────────────────────────────────────── */
-.tabs{display:flex;gap:0;border-bottom:1px solid var(--border)}
-.tab{padding:8px 16px;cursor:pointer;color:var(--fg3);border-bottom:2px solid transparent;font-size:.85rem;transition:.2s}
-.tab:hover{color:var(--fg)}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-content{display:none;padding:12px 0}
-.tab-content.active{display:block}
-
-/* ── Empty state ──────────────────────────────────── */
-.empty{text-align:center;padding:40px;color:var(--fg3)}
-.empty .icon{font-size:3rem;margin-bottom:12px;opacity:.3}
-.empty p{font-size:.9rem}
-
-/* ── Responsive ───────────────────────────────────── */
-@media(max-width:768px){
-  .app{flex-direction:column}
-  .sidebar{width:100%;max-height:40vh;border-right:none;border-bottom:1px solid var(--border)}
-  .stats{grid-template-columns:repeat(3,1fr)}
+/* ── Empty State ────────────────────────────────────────────── */
+.empty-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;color:var(--fg4);text-align:center;padding:40px;
 }
+.empty-state .empty-icon{font-size:3rem;margin-bottom:16px;opacity:.3}
+.empty-state p{font-size:.9rem;line-height:1.6;max-width:360px}
 
-/* ── Scrollbar ────────────────────────────────────── */
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--fg3)}
+/* ── Scan Panel ─────────────────────────────────────────────── */
+.scan-panel{max-width:640px;margin:0 auto;padding:48px 32px}
+.scan-panel .panel-title{
+  font-size:1.5rem;font-weight:600;margin-bottom:4px;color:var(--fg);
+}
+.scan-panel .panel-desc{font-size:.9rem;color:var(--fg3);margin-bottom:32px;line-height:1.5}
+
+.field{margin-bottom:24px}
+.field label{
+  display:block;font-size:.7rem;font-weight:600;color:var(--fg4);
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;
+}
+.field input,.field select{
+  width:100%;background:var(--bg2);border:1px solid var(--border);
+  color:var(--fg);padding:12px 14px;border-radius:var(--radius);
+  font-family:var(--mono);font-size:.9rem;outline:none;transition:.2s;
+}
+.field input:focus,.field select:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px rgba(106,95,193,.15);
+}
+.field input::placeholder{color:var(--fg4)}
+.field select option{background:var(--bg2)}
+
+/* Mode Selector */
+.mode-group{display:flex;gap:8px}
+.mode-btn{
+  flex:1;padding:14px 12px;border:1px solid var(--border);background:var(--bg2);
+  color:var(--fg3);border-radius:var(--radius);cursor:pointer;
+  font-family:var(--sans);font-weight:600;font-size:.8rem;
+  text-transform:uppercase;letter-spacing:.5px;transition:.2s;text-align:center;
+}
+.mode-btn:hover{border-color:var(--accent2);color:var(--fg)}
+.mode-btn.active[data-mode="passive"]{background:rgba(106,95,193,.15);border-color:var(--accent);color:var(--accent)}
+.mode-btn.active[data-mode="active"]{background:rgba(255,107,107,.1);border-color:var(--red);color:var(--red)}
+.mode-btn.active[data-mode="hybrid"]{background:rgba(194,239,78,.08);border-color:var(--lime);color:var(--lime)}
+.mode-btn .mode-icon{display:block;font-size:1.2rem;margin-bottom:4px}
+
+/* CTA Button */
+.btn-start{
+  width:100%;padding:14px 24px;
+  background:var(--accent2);color:#fff;border:1px solid var(--border2);
+  border-radius:var(--radius3);font-family:var(--sans);font-weight:700;
+  font-size:.9rem;text-transform:uppercase;letter-spacing:.8px;
+  cursor:pointer;transition:.2s;
+  box-shadow:var(--shadow-inset);
+}
+.btn-start:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.btn-start:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* Module Pills */
+.module-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.module-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:5px 10px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;cursor:pointer;font-size:.78rem;font-family:var(--mono);
+  color:var(--fg3);transition:.15s;user-select:none;
+}
+.module-pill:hover{border-color:var(--accent2);color:var(--fg)}
+.module-pill input{accent-color:var(--lime);margin:0}
+.module-pill.passive{border-color:rgba(106,95,193,.3)}
+.module-pill.active-mod{border-color:rgba(255,107,107,.3)}
+
+/* ── Results View ───────────────────────────────────────────── */
+.results-view{display:flex;flex-direction:column;height:100%}
+
+/* Stats Row */
+.stats-row{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:12px;
+  padding:24px 32px 0;
+}
+.stat-card{
+  background:var(--glass2);border:1px solid var(--border);border-radius:var(--radius2);
+  padding:16px;text-align:center;position:relative;overflow:hidden;
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+}
+.stat-card.critical::before{background:var(--red)}
+.stat-card.high::before{background:var(--orange)}
+.stat-card.medium::before{background:var(--yellow)}
+.stat-card.low::before{background:var(--accent)}
+.stat-card.info::before{background:var(--fg4)}
+.stat-card .stat-num{font-size:2rem;font-weight:700;font-family:var(--mono);line-height:1}
+.stat-card .stat-label{
+  font-size:.65rem;font-weight:600;color:var(--fg4);text-transform:uppercase;
+  letter-spacing:1px;margin-top:4px;
+}
+.stat-card.critical .stat-num{color:var(--red)}
+.stat-card.high .stat-num{color:var(--orange)}
+.stat-card.medium .stat-num{color:var(--yellow)}
+.stat-card.low .stat-num{color:var(--accent)}
+.stat-card.info .stat-num{color:var(--fg4)}
+
+/* Tabs */
+.tabs-bar{
+  display:flex;gap:0;padding:0 32px;border-bottom:1px solid var(--border);
+  margin-top:20px;
+}
+.tab-btn{
+  padding:10px 18px;cursor:pointer;color:var(--fg4);border:none;
+  background:none;font-family:var(--sans);font-size:.85rem;font-weight:500;
+  border-bottom:2px solid transparent;transition:.2s;
+}
+.tab-btn:hover{color:var(--fg2)}
+.tab-btn.active{color:var(--fg);border-bottom-color:var(--accent)}
+.tab-panel{display:none;flex:1;overflow:hidden}
+.tab-panel.active{display:flex;flex-direction:column}
+
+/* Console */
+.console-wrap{flex:1;padding:16px 32px;overflow:hidden}
+.console{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);
+  font-family:var(--mono);font-size:.8rem;padding:16px;
+  height:100%;min-height:300px;overflow-y:auto;line-height:1.7;
+  white-space:pre-wrap;word-break:break-all;
+}
+.console .ts{color:var(--fg4)}
+.console .cmd{color:var(--lime)}
+.console .info{color:var(--accent)}
+.console .err{color:var(--red)}
+.console .ok{color:var(--green)}
+.console .dim{color:var(--fg4)}
+
+/* Findings Table */
+.findings-wrap{flex:1;padding:16px 32px;overflow-y:auto}
+.findings-tbl{width:100%;border-collapse:collapse}
+.findings-tbl th{
+  text-align:left;font-size:.65rem;font-weight:600;color:var(--fg4);
+  text-transform:uppercase;letter-spacing:1px;padding:10px 14px;
+  border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);
+}
+.findings-tbl td{padding:10px 14px;border-bottom:1px solid var(--glass2);font-size:.85rem}
+.findings-tbl tr:hover td{background:var(--glass2)}
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:20px;
+  font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px;
+}
+.badge.critical{background:rgba(255,107,107,.12);color:var(--red)}
+.badge.high{background:rgba(255,184,107,.12);color:var(--orange)}
+.badge.medium{background:rgba(255,224,107,.12);color:var(--yellow)}
+.badge.low{background:rgba(106,95,193,.15);color:var(--accent)}
+.badge.info{background:rgba(107,99,134,.15);color:var(--fg3)}
+.finding-title{font-weight:500;color:var(--fg)}
+.finding-detail{color:var(--fg4);font-size:.8rem;max-width:500px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Report */
+.report-wrap{flex:1;padding:16px 32px;overflow-y:auto}
+.report-md{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);
+  padding:24px;font-family:var(--mono);font-size:.82rem;line-height:1.75;
+  color:var(--fg2);white-space:pre-wrap;max-height:70vh;overflow-y:auto;
+}
+.report-actions{display:flex;gap:10px;margin-top:16px}
+.btn-download{
+  padding:8px 16px;background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--radius);color:var(--fg2);font-family:var(--sans);
+  font-size:.8rem;font-weight:500;text-decoration:none;transition:.2s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.btn-download:hover{border-color:var(--accent);color:var(--fg)}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media(max-width:900px){
+  .sidebar{display:none}
+  .stats-row{grid-template-columns:repeat(3,1fr);padding:16px}
+  .topbar{padding:0 16px}
+  .scan-panel{padding:24px 16px}
+  .console-wrap,.findings-wrap,.report-wrap{padding:12px 16px}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">⚡ recon<span>framework</span></div>
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="logo">
+    <svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#6a5fc1" stroke-width="2"/><path d="M14 6v8l5.5 3.5" stroke="#c2ef4e" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="14" r="3" fill="#c2ef4e"/></svg>
+    <span class="brand">Recon<span class="dot">SaaS</span></span>
+  </div>
   <nav>
-    <button class="active" onclick="showView('scan')">New Scan</button>
-    <button onclick="showView('history')">History</button>
+    <a href="#" class="active" onclick="showView('new')">New Scan</a>
+    <a href="#" onclick="showView('history')">History</a>
   </nav>
-</header>
+  <div class="spacer"></div>
+  <div class="status-pill"><span class="status-dot"></span> System Ready</div>
+</div>
 
 <div class="app">
-  <!-- Sidebar: Scan History -->
+  <!-- Sidebar -->
   <div class="sidebar">
-    <div style="font-size:.8rem;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:10px">Recent Scans</div>
-    <div id="history-list">
-      <div class="empty"><p>No scans yet</p></div>
+    <div class="sidebar-header">
+      <h2>Recent Scans</h2>
+    </div>
+    <div class="sidebar-content" id="history-list">
+      <div class="empty-state"><p style="font-size:.8rem">No scans yet</p></div>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="main">
-    <!-- Scan Form -->
-    <div id="view-scan">
-      <div class="card">
-        <div class="card-header"><h3>🎯 New Reconnaissance Scan</h3></div>
-        <div class="card-body">
-          <div class="form-group">
-            <label>Target Domain</label>
-            <input type="text" id="target" placeholder="example.com" autofocus>
-          </div>
-          <div class="form-group">
-            <label>Scan Mode</label>
-            <div class="mode-btns">
-              <button data-mode="passive" onclick="setMode('passive')">🔵 Passive</button>
-              <button data-mode="active" onclick="setMode('active')">🔴 Active</button>
-              <button data-mode="hybrid" class="active" onclick="setMode('hybrid')">🟣 Hybrid</button>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Modules (leave empty for all)</label>
-            <div id="module-checkboxes" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
-          </div>
-          <div class="form-group">
-            <label>Threads</label>
-            <input type="number" id="threads" value="10" min="1" max="50">
-          </div>
-          <button class="btn-scan" id="btn-scan" onclick="startScan()">⚡ Start Scan</button>
+  <!-- Main Area -->
+  <div class="main-area">
+    <!-- New Scan View -->
+    <div id="view-new">
+      <div class="scan-panel">
+        <div class="panel-title">New Reconnaissance Scan</div>
+        <div class="panel-desc">Discover subdomains, fingerprint technologies, find hidden endpoints, and rank assets by exploitability.</div>
+
+        <div class="field">
+          <label>Target Domain</label>
+          <input type="text" id="target" placeholder="example.com" autofocus>
         </div>
+
+        <div class="field">
+          <label>Scan Mode</label>
+          <div class="mode-group">
+            <button class="mode-btn" data-mode="passive" onclick="setMode('passive')">
+              <span class="mode-icon">&#128309;</span>Passive
+            </button>
+            <button class="mode-btn" data-mode="active" onclick="setMode('active')">
+              <span class="mode-icon">&#128308;</span>Active
+            </button>
+            <button class="mode-btn active" data-mode="hybrid" onclick="setMode('hybrid')">
+              <span class="mode-icon">&#128993;</span>Hybrid
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Modules <span style="text-transform:none;letter-spacing:0;color:var(--fg4)">(leave empty for all)</span></label>
+          <div class="module-pills" id="module-pills"></div>
+        </div>
+
+        <div class="field">
+          <label>Concurrency</label>
+          <input type="number" id="threads" value="10" min="1" max="50">
+        </div>
+
+        <button class="btn-start" id="btn-start" onclick="startScan()">Start Scan</button>
       </div>
     </div>
 
-    <!-- Scan Results View (hidden until scan starts) -->
-    <div id="view-results" style="display:none">
-      <!-- Stats -->
-      <div class="stats" id="stats">
-        <div class="stat critical"><div class="num" id="stat-critical">0</div><div class="label">Critical</div></div>
-        <div class="stat high"><div class="num" id="stat-high">0</div><div class="label">High</div></div>
-        <div class="stat medium"><div class="num" id="stat-medium">0</div><div class="label">Medium</div></div>
-        <div class="stat low"><div class="num" id="stat-low">0</div><div class="label">Low</div></div>
-        <div class="stat info"><div class="num" id="stat-info">0</div><div class="label">Info</div></div>
+    <!-- Results View -->
+    <div id="view-results" style="display:none" class="results-view">
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card critical"><div class="stat-num" id="s-crit">0</div><div class="stat-label">Critical</div></div>
+        <div class="stat-card high"><div class="stat-num" id="s-high">0</div><div class="stat-label">High</div></div>
+        <div class="stat-card medium"><div class="stat-num" id="s-med">0</div><div class="stat-label">Medium</div></div>
+        <div class="stat-card low"><div class="stat-num" id="s-low">0</div><div class="stat-label">Low</div></div>
+        <div class="stat-card info"><div class="stat-num" id="s-info">0</div><div class="stat-label">Info</div></div>
       </div>
 
-      <!-- Tabs -->
-      <div class="card">
-        <div class="tabs">
-          <div class="tab active" onclick="switchTab('console')">Console</div>
-          <div class="tab" onclick="switchTab('findings')">Findings</div>
-          <div class="tab" onclick="switchTab('report')">Report</div>
-        </div>
+      <div class="tabs-bar">
+        <button class="tab-btn active" onclick="switchTab('console')">Console</button>
+        <button class="tab-btn" onclick="switchTab('findings')">Findings</button>
+        <button class="tab-btn" onclick="switchTab('report')">Report</button>
+      </div>
 
-        <!-- Console Tab -->
-        <div class="tab-content active" id="tab-console">
-          <div class="console" id="console-log">Waiting for scan to start...</div>
+      <div class="tab-panel active" id="panel-console">
+        <div class="console-wrap">
+          <div class="console" id="console-el">Waiting for scan...</div>
         </div>
+      </div>
 
-        <!-- Findings Tab -->
-        <div class="tab-content" id="tab-findings">
-          <div id="findings-content">
-            <div class="empty"><p>No findings yet</p></div>
-          </div>
+      <div class="tab-panel" id="panel-findings">
+        <div class="findings-wrap" id="findings-el">
+          <div class="empty-state"><p>No findings yet</p></div>
         </div>
+      </div>
 
-        <!-- Report Tab -->
-        <div class="tab-content" id="tab-report">
-          <div id="report-content">
-            <div class="empty"><p>Report will appear after scan completes</p></div>
-          </div>
+      <div class="tab-panel" id="panel-report">
+        <div class="report-wrap" id="report-el">
+          <div class="empty-state"><p>Report appears after scan completes</p></div>
         </div>
       </div>
     </div>
 
     <!-- History View -->
     <div id="view-history" style="display:none">
-      <div class="card">
-        <div class="card-header"><h3>Scan History</h3></div>
-        <div class="card-body" id="history-view-content">
-          <div class="empty"><p>No scans completed yet</p></div>
+      <div style="max-width:900px;margin:0 auto;padding:32px">
+        <div class="panel-title" style="margin-bottom:24px">Scan History</div>
+        <div id="history-view-el">
+          <div class="empty-state"><p>No scans completed yet</p></div>
         </div>
       </div>
     </div>
@@ -233,275 +390,184 @@ header nav button:hover,header nav button.active{background:var(--bg3);color:var
 </div>
 
 <script>
-let currentMode = 'hybrid';
-let currentScanId = null;
-let eventSource = null;
-let pollInterval = null;
+let mode='hybrid',scanId=null,es=null,poll=null;
+window.addEventListener('load',()=>{loadModules();loadHistory();});
 
-// ── Init ──────────────────────────────────────────
-window.addEventListener('load', () => {
-  loadModules();
-  loadHistory();
-});
-
-// ── Mode selector ─────────────────────────────────
-function setMode(mode) {
-  currentMode = mode;
-  document.querySelectorAll('.mode-btns button').forEach(b => {
-    b.classList.toggle('active', b.dataset.mode === mode);
-  });
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));
 }
 
-// ── Load modules ──────────────────────────────────
-async function loadModules() {
-  try {
-    const r = await fetch('/api/modules');
-    const data = await r.json();
-    const container = document.getElementById('module-checkboxes');
-    const all = {...data.passive, ...data.active};
-    for (const [name, desc] of Object.entries(all)) {
-      const tag = document.createElement('label');
-      tag.style.cssText = 'display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border2);padding:4px 8px;border-radius:4px;cursor:pointer;font-size:.8rem;font-family:var(--mono)';
-      tag.innerHTML = `<input type="checkbox" value="${name}" style="accent-color:var(--accent)"> ${name}`;
-      tag.title = desc;
-      container.appendChild(tag);
+async function loadModules(){
+  try{
+    const r=await fetch('/api/modules');const d=await r.json();
+    const el=document.getElementById('module-pills');
+    const all={...d.passive,...d.active};
+    const isPassive=d.passive;
+    for(const[name,desc]of Object.entries(all)){
+      const pill=document.createElement('label');
+      pill.className='module-pill '+(name in isPassive?'passive':'active-mod');
+      pill.title=desc;
+      pill.innerHTML=`<input type="checkbox" value="${name}"> ${name}`;
+      el.appendChild(pill);
     }
-  } catch(e) { console.error('Failed to load modules:', e); }
+  }catch(e){}
 }
 
-// ── Start scan ────────────────────────────────────
-async function startScan() {
-  const target = document.getElementById('target').value.trim();
-  if (!target) { alert('Enter a target domain'); return; }
-
-  const modules = [...document.querySelectorAll('#module-checkboxes input:checked')].map(c => c.value);
-  const threads = parseInt(document.getElementById('threads').value) || 10;
-
-  document.getElementById('btn-scan').disabled = true;
-  document.getElementById('btn-scan').textContent = '⏳ Scanning...';
-
-  try {
-    const r = await fetch('/api/scan', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({target, mode: currentMode, modules: modules.length ? modules : null, threads})
-    });
-    const data = await r.json();
-    currentScanId = data.scan_id;
-
-    showView('scan');
-    document.getElementById('view-results').style.display = '';
-    document.getElementById('console-log').textContent = '';
-    resetStats();
-
-    // SSE for live logs
-    startSSE(data.scan_id);
-    // Poll for results
-    startPolling(data.scan_id);
-
-  } catch(e) {
-    alert('Failed to start scan: ' + e);
-    document.getElementById('btn-scan').disabled = false;
-    document.getElementById('btn-scan').textContent = '⚡ Start Scan';
-  }
+async function startScan(){
+  const t=document.getElementById('target').value.trim();
+  if(!t){document.getElementById('target').focus();return;}
+  const mods=[...document.querySelectorAll('.module-pill input:checked')].map(c=>c.value);
+  const th=parseInt(document.getElementById('threads').value)||10;
+  document.getElementById('btn-start').disabled=true;
+  document.getElementById('btn-start').textContent='Scanning...';
+  try{
+    const r=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({target:t,mode,modules:mods.length?mods:null,threads:th})});
+    const d=await r.json();scanId=d.scan_id;
+    document.getElementById('view-new').style.display='none';
+    document.getElementById('view-results').style.display='';
+    document.getElementById('console-el').textContent='';
+    resetStats();startSSE(scanId);startPoll(scanId);
+  }catch(e){alert('Error: '+e);resetBtn();}
 }
 
-// ── SSE streaming ─────────────────────────────────
-function startSSE(scanId) {
-  if (eventSource) eventSource.close();
-  eventSource = new EventSource(`/api/scan/${scanId}/stream`);
-  eventSource.onmessage = (e) => {
-    const data = JSON.parse(e.data);
-    if (data.type === 'log') {
-      appendLog(data.message);
-    } else if (data.type === 'done') {
-      appendLog(`\n✅ Scan finished — ${data.findings_count} findings`);
-      eventSource.close();
-      loadHistory();
-    }
+function startSSE(id){
+  if(es)es.close();
+  es=new EventSource(`/api/scan/${id}/stream`);
+  es.onmessage=e=>{
+    const d=JSON.parse(e.data);
+    if(d.type==='log')appendLog(d.message);
+    else if(d.type==='done'){appendLog(`\n  Scan finished — ${d.findings_count} findings`);es.close();loadHistory();}
   };
-  eventSource.onerror = () => { eventSource.close(); };
+  es.onerror=()=>es.close();
 }
 
-// ── Poll for results ──────────────────────────────
-function startPolling(scanId) {
-  if (pollInterval) clearInterval(pollInterval);
-  pollInterval = setInterval(async () => {
-    try {
-      const r = await fetch(`/api/scan/${scanId}`);
-      const scan = await r.json();
-      updateStats(scan.findings || []);
-
-      if (scan.status === 'completed' || scan.status === 'error') {
-        clearInterval(pollInterval);
-        document.getElementById('btn-scan').disabled = false;
-        document.getElementById('btn-scan').textContent = '⚡ Start Scan';
-        renderFindings(scan.findings || []);
-        renderReport(scan);
+function startPoll(id){
+  if(poll)clearInterval(poll);
+  poll=setInterval(async()=>{
+    try{
+      const r=await fetch(`/api/scan/${id}`);const s=await r.json();
+      updateStats(s.findings||[]);
+      if(s.status==='completed'||s.status==='error'){
+        clearInterval(poll);resetBtn();
+        renderFindings(s.findings||[]);renderReport(s);
       }
-    } catch(e) {}
-  }, 2000);
+    }catch(e){}
+  },2000);
 }
 
-// ── Console log ───────────────────────────────────
-function appendLog(msg) {
-  const el = document.getElementById('console-log');
-  const line = document.createElement('div');
-  if (msg.includes('[') && msg.includes(']')) {
-    const parts = msg.match(/^(\[[\d:]+\])\s*(.*)$/);
-    if (parts) {
-      line.innerHTML = `<span class="ts">${esc(parts[1])}</span> <span class="${msg.includes('❌')?'err':msg.includes('▸')?'info':'msg'}">${esc(parts[2])}</span>`;
-    } else {
-      line.textContent = msg;
-    }
-  } else {
-    line.textContent = msg;
-  }
-  el.appendChild(line);
-  el.scrollTop = el.scrollHeight;
+function appendLog(msg){
+  const el=document.getElementById('console-el');
+  const d=document.createElement('div');
+  const m=msg.match(/^\[([\d:]+)\]\s*(.*)$/);
+  if(m){
+    const cls=m[2].startsWith('▸')?'cmd':m[2].includes('Error')||m[2].includes('❌')?'err':m[2].includes('completed')?'ok':'info';
+    d.innerHTML=`<span class="ts">[${m[1]}]</span> <span class="${cls}">${esc(m[2])}</span>`;
+  }else d.textContent=msg;
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
 }
 
-// ── Stats ─────────────────────────────────────────
-function resetStats() {
-  ['critical','high','medium','low','info'].forEach(s => document.getElementById(`stat-${s}`).textContent = '0');
-}
-function updateStats(findings) {
-  const counts = {critical:0,high:0,medium:0,low:0,info:0};
-  findings.forEach(f => { const s = (f.severity||'info').toLowerCase(); counts[s] = (counts[s]||0)+1; });
-  for (const [k,v] of Object.entries(counts)) document.getElementById(`stat-${k}`).textContent = v;
+function resetStats(){['s-crit','s-high','s-med','s-low','s-info'].forEach(id=>document.getElementById(id).textContent='0');}
+function updateStats(fs){
+  const c={critical:0,high:0,medium:0,low:0,info:0};
+  fs.forEach(f=>{c[(f.severity||'info').toLowerCase()]++;});
+  document.getElementById('s-crit').textContent=c.critical;
+  document.getElementById('s-high').textContent=c.high;
+  document.getElementById('s-med').textContent=c.medium;
+  document.getElementById('s-low').textContent=c.low;
+  document.getElementById('s-info').textContent=c.info;
 }
 
-// ── Findings table ────────────────────────────────
-function renderFindings(findings) {
-  if (!findings.length) {
-    document.getElementById('findings-content').innerHTML = '<div class="empty"><p>No findings</p></div>';
-    return;
-  }
-  const order = {critical:0,high:1,medium:2,low:3,info:4};
-  findings.sort((a,b) => (order[a.severity]||5)-(order[b.severity]||5));
-
-  let html = '<table class="findings-table"><thead><tr><th>Severity</th><th>Finding</th><th>Detail</th></tr></thead><tbody>';
-  findings.forEach(f => {
-    const sev = (f.severity||'info').toLowerCase();
-    html += `<tr><td><span class="badge ${sev}">${sev}</span></td><td>${esc(f.title||'')}</td><td style="color:var(--fg3);max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc((f.detail||'').substring(0,120))}</td></tr>`;
+function renderFindings(fs){
+  if(!fs.length){document.getElementById('findings-el').innerHTML='<div class="empty-state"><p>No findings</p></div>';return;}
+  const ord={critical:0,high:1,medium:2,low:3,info:4};
+  fs.sort((a,b)=>(ord[a.severity]||5)-(ord[b.severity]||5));
+  let h='<table class="findings-tbl"><thead><tr><th>Severity</th><th>Finding</th><th>Details</th></tr></thead><tbody>';
+  fs.forEach(f=>{
+    const s=(f.severity||'info').toLowerCase();
+    h+=`<tr><td><span class="badge ${s}">${s}</span></td><td class="finding-title">${esc(f.title||'')}</td><td class="finding-detail">${esc((f.detail||'').substring(0,150))}</td></tr>`;
   });
-  html += '</tbody></table>';
-  document.getElementById('findings-content').innerHTML = html;
+  h+='</tbody></table>';
+  document.getElementById('findings-el').innerHTML=h;
 }
 
-// ── Report ────────────────────────────────────────
-function renderReport(scan) {
-  let html = '';
-  if (scan.report_md) {
-    // Simple markdown rendering
-    html = `<div style="font-family:var(--mono);font-size:.8rem;line-height:1.7;white-space:pre-wrap;color:var(--fg2)">${esc(scan.report_md)}</div>`;
-    html += `<div style="margin-top:12px;display:flex;gap:8px">
-      <a href="/api/scan/${scan.id}/download/md" style="color:var(--accent);text-decoration:none;font-size:.85rem">📄 Download Markdown</a>
-      <a href="/api/scan/${scan.id}/download/json" style="color:var(--accent);text-decoration:none;font-size:.85rem">📊 Download JSON</a>
-    </div>`;
-  } else {
-    html = '<div class="empty"><p>No report generated</p></div>';
-  }
-  document.getElementById('report-content').innerHTML = html;
+function renderReport(s){
+  let h='';
+  if(s.report_md){
+    h=`<div class="report-md">${esc(s.report_md)}</div>`;
+    h+=`<div class="report-actions"><a class="btn-download" href="/api/scan/${s.id}/download/md">Download .md</a><a class="btn-download" href="/api/scan/${s.id}/download/json">Download .json</a></div>`;
+  }else h='<div class="empty-state"><p>No report</p></div>';
+  document.getElementById('report-el').innerHTML=h;
 }
 
-// ── Tabs ──────────────────────────────────────────
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelector(`.tab[onclick="switchTab('${name}')"]`).classList.add('active');
-  document.getElementById(`tab-${name}`).classList.add('active');
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`.tab-btn[onclick="switchTab('${name}')"]`).classList.add('active');
+  document.getElementById(`panel-${name}`).classList.add('active');
 }
 
-// ── Views ─────────────────────────────────────────
-function showView(name) {
-  document.querySelectorAll('header nav button').forEach(b => b.classList.remove('active'));
-  event?.target?.classList?.add('active');
-  if (name === 'history') {
-    document.getElementById('view-scan').style.display = 'none';
-    document.getElementById('view-results').style.display = 'none';
-    document.getElementById('view-history').style.display = '';
-    renderHistoryView();
-  } else {
-    document.getElementById('view-scan').style.display = '';
-    document.getElementById('view-history').style.display = 'none';
-  }
+function showView(name){
+  document.querySelectorAll('.topbar nav a').forEach(a=>a.classList.remove('active'));
+  event?.target?.classList?.add?.('active');
+  document.getElementById('view-new').style.display=name==='new'?'':'none';
+  document.getElementById('view-results').style.display='none';
+  document.getElementById('view-history').style.display=name==='history'?'':'none';
+  if(name==='history')renderHistoryView();
 }
 
-// ── History ───────────────────────────────────────
-async function loadHistory() {
-  try {
-    const r = await fetch('/api/scans');
-    const scans = await r.json();
-    renderHistorySidebar(scans);
-    window._scans = scans;
-  } catch(e) {}
+async function loadHistory(){
+  try{
+    const r=await fetch('/api/scans');const ss=await r.json();
+    renderSidebar(ss);window._scans=ss;
+  }catch(e){}
 }
 
-function renderHistorySidebar(scans) {
-  const el = document.getElementById('history-list');
-  if (!scans.length) { el.innerHTML = '<div class="empty"><p>No scans yet</p></div>'; return; }
-  el.innerHTML = scans.map(s => `
-    <div class="scan-item" onclick="viewScan('${s.id}')">
-      <div>
-        <div class="target"><span class="status ${s.status}"></span>${esc(s.target)}</div>
-        <div class="meta">${s.mode} · ${s.findings_count} findings</div>
+function renderSidebar(ss){
+  const el=document.getElementById('history-list');
+  if(!ss.length){el.innerHTML='<div class="empty-state"><p style="font-size:.8rem">No scans yet</p></div>';return;}
+  el.innerHTML=ss.map(s=>`
+    <div class="history-item" onclick="viewScan('${s.id}')">
+      <div class="h-top">
+        <span class="h-status ${s.status}"></span>
+        <span class="h-target">${esc(s.target)}</span>
+        <span class="h-count">${s.findings_count}</span>
       </div>
-      <div class="meta">${s.status}</div>
+      <div class="h-meta"><span>${s.mode}</span><span>${s.status}</span></div>
     </div>
   `).join('');
 }
 
-async function renderHistoryView() {
-  const r = await fetch('/api/scans');
-  const scans = await r.json();
-  const el = document.getElementById('history-view-content');
-  if (!scans.length) { el.innerHTML = '<div class="empty"><p>No scans completed yet</p></div>'; return; }
-  let html = '<table class="findings-table"><thead><tr><th>Target</th><th>Mode</th><th>Status</th><th>Findings</th><th>Actions</th></tr></thead><tbody>';
-  scans.forEach(s => {
-    html += `<tr>
-      <td style="font-family:var(--mono)">${esc(s.target)}</td>
-      <td>${s.mode}</td>
-      <td><span class="badge ${s.status==='completed'?'low':s.status==='error'?'critical':'info'}">${s.status}</span></td>
-      <td>${s.findings_count}</td>
-      <td><a href="/api/scan/${s.id}" style="color:var(--accent)" onclick="event.preventDefault();viewScan('${s.id}')">View</a></td>
-    </tr>`;
+async function renderHistoryView(){
+  const r=await fetch('/api/scans');const ss=await r.json();
+  const el=document.getElementById('history-view-el');
+  if(!ss.length){el.innerHTML='<div class="empty-state"><p>No scans yet</p></div>';return;}
+  let h='<table class="findings-tbl"><thead><tr><th>Target</th><th>Mode</th><th>Status</th><th>Findings</th><th></th></tr></thead><tbody>';
+  ss.forEach(s=>{
+    h+=`<tr><td style="font-family:var(--mono)">${esc(s.target)}</td><td>${s.mode}</td><td><span class="badge ${s.status==='completed'?'low':s.status==='error'?'critical':'info'}">${s.status}</span></td><td>${s.findings_count}</td><td><a href="#" style="color:var(--accent)" onclick="event.preventDefault();viewScan('${s.id}')">View</a></td></tr>`;
   });
-  html += '</tbody></table>';
-  el.innerHTML = html;
+  h+='</tbody></table>';el.innerHTML=h;
 }
 
-async function viewScan(scanId) {
-  const r = await fetch(`/api/scan/${scanId}`);
-  const scan = await r.json();
-  currentScanId = scanId;
-
-  showView('scan');
-  document.getElementById('view-results').style.display = '';
-  document.getElementById('target').value = scan.target;
-  setMode(scan.mode);
-
-  resetStats();
-  updateStats(scan.findings || []);
-  renderFindings(scan.findings || []);
-  renderReport(scan);
-
-  // Load logs
-  const lr = await fetch(`/api/scan/${scanId}/logs`);
-  const logData = await lr.json();
-  document.getElementById('console-log').textContent = '';
-  (logData.logs || []).forEach(l => appendLog(l));
-
+async function viewScan(id){
+  const r=await fetch(`/api/scan/${id}`);const s=await r.json();scanId=id;
+  document.getElementById('view-new').style.display='none';
+  document.getElementById('view-results').style.display='';
+  document.getElementById('view-history').style.display='none';
+  document.getElementById('target').value=s.target;setMode(s.mode);
+  resetStats();updateStats(s.findings||[]);
+  renderFindings(s.findings||[]);renderReport(s);
+  const lr=await fetch(`/api/scan/${id}/logs`);const ld=await lr.json();
+  document.getElementById('console-el').textContent='';
+  (ld.logs||[]).forEach(l=>appendLog(l));
   switchTab('findings');
+  document.querySelectorAll('.topbar nav a').forEach(a=>a.classList.remove('active'));
 }
 
-// ── Utility ───────────────────────────────────────
-function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-// Enter key to start scan
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && document.activeElement?.id === 'target') startScan();
-});
+function resetBtn(){document.getElementById('btn-start').disabled=false;document.getElementById('btn-start').textContent='Start Scan';}
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.activeElement?.id==='target')startScan();});
 </script>
 </body>
 </html>
