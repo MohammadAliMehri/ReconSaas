@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recon Framework — Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0e17;--bg2:#111827;--bg3:#1a2332;--bg4:#243044;
+  --fg:#e2e8f0;--fg2:#94a3b8;--fg3:#64748b;
+  --accent:#00d4ff;--accent2:#7c3aed;--green:#10b981;--red:#ef4444;
+  --orange:#f59e0b;--yellow:#eab308;
+  --border:#1e293b;--border2:#334155;
+  --mono:'Cascadia Code','Fira Code','JetBrains Mono','Consolas',monospace;
+  --sans:'Inter','Segoe UI',system-ui,sans-serif;
+  --radius:8px;--shadow:0 4px 24px rgba(0,0,0,.4);
+}
+html{font-size:14px}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column}
+
+/* ── Header ───────────────────────────────────────── */
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:16px}
+header .logo{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--accent);letter-spacing:-.5px}
+header .logo span{color:var(--fg3);font-weight:400}
+header nav{margin-left:auto;display:flex;gap:8px}
+header nav button{background:transparent;border:1px solid var(--border2);color:var(--fg2);padding:6px 14px;border-radius:var(--radius);cursor:pointer;font-size:.85rem;transition:.2s}
+header nav button:hover,header nav button.active{background:var(--bg3);color:var(--accent);border-color:var(--accent)}
+
+/* ── Layout ───────────────────────────────────────── */
+.app{display:flex;flex:1;overflow:hidden}
+.sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);padding:16px;overflow-y:auto;flex-shrink:0}
+.main{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px}
+
+/* ── Scan form ────────────────────────────────────── */
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:.8rem;color:var(--fg3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.form-group input,.form-group select{width:100%;background:var(--bg);border:1px solid var(--border2);color:var(--fg);padding:10px 12px;border-radius:var(--radius);font-family:var(--mono);font-size:.9rem;outline:none;transition:.2s}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,212,255,.15)}
+.form-group select option{background:var(--bg2)}
+
+.mode-btns{display:flex;gap:6px;margin-bottom:14px}
+.mode-btns button{flex:1;padding:10px;border:1px solid var(--border2);background:var(--bg);color:var(--fg2);border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:.85rem;transition:.2s;text-transform:uppercase;letter-spacing:.5px}
+.mode-btns button:hover{border-color:var(--accent);color:var(--fg)}
+.mode-btns button.active[data-mode="passive"]{background:rgba(59,130,246,.15);border-color:#3b82f6;color:#60a5fa}
+.mode-btns button.active[data-mode="active"]{background:rgba(239,68,68,.15);border-color:#ef4444;color:#f87171}
+.mode-btns button.active[data-mode="hybrid"]{background:rgba(124,58,237,.15);border-color:#7c3aed;color:#a78bfa}
+
+.btn-scan{width:100%;padding:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:var(--radius);font-weight:700;font-size:1rem;cursor:pointer;transition:.2s;text-transform:uppercase;letter-spacing:1px}
+.btn-scan:hover{opacity:.9;transform:translateY(-1px)}
+.btn-scan:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ── Cards ────────────────────────────────────────── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.card-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-header h3{font-size:.9rem;font-weight:600;color:var(--fg)}
+.card-body{padding:16px}
+
+/* ── Stats row ────────────────────────────────────── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
+.stat .num{font-size:1.8rem;font-weight:700;font-family:var(--mono)}
+.stat .label{font-size:.75rem;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.stat.critical .num{color:var(--red)}
+.stat.high .num{color:var(--orange)}
+.stat.medium .num{color:var(--yellow)}
+.stat.low .num{color:var(--accent)}
+.stat.info .num{color:var(--fg3)}
+
+/* ── Findings table ───────────────────────────────── */
+.findings-table{width:100%;border-collapse:collapse}
+.findings-table th{text-align:left;font-size:.75rem;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;border-bottom:1px solid var(--border2)}
+.findings-table td{padding:8px 12px;border-bottom:1px solid var(--border);font-size:.85rem}
+.findings-table tr:hover td{background:var(--bg3)}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.badge.critical{background:rgba(239,68,68,.2);color:#f87171}
+.badge.high{background:rgba(245,158,11,.2);color:#fbbf24}
+.badge.medium{background:rgba(234,179,8,.2);color:#facc15}
+.badge.low{background:rgba(0,212,255,.2);color:#67e8f9}
+.badge.info{background:rgba(100,116,139,.2);color:#94a3b8}
+
+/* ── Log console ──────────────────────────────────── */
+.console{background:#0c0c0c;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--mono);font-size:.8rem;padding:12px;max-height:340px;overflow-y:auto;line-height:1.6;white-space:pre-wrap;word-break:break-all}
+.console .ts{color:var(--fg3)}
+.console .msg{color:var(--green)}
+.console .err{color:var(--red)}
+.console .info{color:var(--accent)}
+
+/* ── Scan history ─────────────────────────────────── */
+.scan-item{padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s;display:flex;justify-content:space-between;align-items:center}
+.scan-item:hover{background:var(--bg3)}
+.scan-item .target{font-family:var(--mono);font-weight:600;color:var(--fg)}
+.scan-item .meta{font-size:.75rem;color:var(--fg3)}
+.scan-item .status{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.scan-item .status.running{background:var(--accent);animation:pulse 1s infinite}
+.scan-item .status.completed{background:var(--green)}
+.scan-item .status.error{background:var(--red)}
+.scan-item .status.queued{background:var(--fg3)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── Tech tags ────────────────────────────────────── */
+.tech-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tech-tag{background:var(--bg4);border:1px solid var(--border2);padding:2px 8px;border-radius:4px;font-size:.75rem;font-family:var(--mono);color:var(--accent)}
+
+/* ── Tabs ─────────────────────────────────────────── */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border)}
+.tab{padding:8px 16px;cursor:pointer;color:var(--fg3);border-bottom:2px solid transparent;font-size:.85rem;transition:.2s}
+.tab:hover{color:var(--fg)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-content{display:none;padding:12px 0}
+.tab-content.active{display:block}
+
+/* ── Empty state ──────────────────────────────────── */
+.empty{text-align:center;padding:40px;color:var(--fg3)}
+.empty .icon{font-size:3rem;margin-bottom:12px;opacity:.3}
+.empty p{font-size:.9rem}
+
+/* ── Responsive ───────────────────────────────────── */
+@media(max-width:768px){
+  .app{flex-direction:column}
+  .sidebar{width:100%;max-height:40vh;border-right:none;border-bottom:1px solid var(--border)}
+  .stats{grid-template-columns:repeat(3,1fr)}
+}
+
+/* ── Scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--fg3)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚡ recon<span>framework</span></div>
+  <nav>
+    <button class="active" onclick="showView('scan')">New Scan</button>
+    <button onclick="showView('history')">History</button>
+  </nav>
+</header>
+
+<div class="app">
+  <!-- Sidebar: Scan History -->
+  <div class="sidebar">
+    <div style="font-size:.8rem;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:10px">Recent Scans</div>
+    <div id="history-list">
+      <div class="empty"><p>No scans yet</p></div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Scan Form -->
+    <div id="view-scan">
+      <div class="card">
+        <div class="card-header"><h3>🎯 New Reconnaissance Scan</h3></div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Target Domain</label>
+            <input type="text" id="target" placeholder="example.com" autofocus>
+          </div>
+          <div class="form-group">
+            <label>Scan Mode</label>
+            <div class="mode-btns">
+              <button data-mode="passive" onclick="setMode('passive')">🔵 Passive</button>
+              <button data-mode="active" onclick="setMode('active')">🔴 Active</button>
+              <button data-mode="hybrid" class="active" onclick="setMode('hybrid')">🟣 Hybrid</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Modules (leave empty for all)</label>
+            <div id="module-checkboxes" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
+          </div>
+          <div class="form-group">
+            <label>Threads</label>
+            <input type="number" id="threads" value="10" min="1" max="50">
+          </div>
+          <button class="btn-scan" id="btn-scan" onclick="startScan()">⚡ Start Scan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scan Results View (hidden until scan starts) -->
+    <div id="view-results" style="display:none">
+      <!-- Stats -->
+      <div class="stats" id="stats">
+        <div class="stat critical"><div class="num" id="stat-critical">0</div><div class="label">Critical</div></div>
+        <div class="stat high"><div class="num" id="stat-high">0</div><div class="label">High</div></div>
+        <div class="stat medium"><div class="num" id="stat-medium">0</div><div class="label">Medium</div></div>
+        <div class="stat low"><div class="num" id="stat-low">0</div><div class="label">Low</div></div>
+        <div class="stat info"><div class="num" id="stat-info">0</div><div class="label">Info</div></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="card">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('console')">Console</div>
+          <div class="tab" onclick="switchTab('findings')">Findings</div>
+          <div class="tab" onclick="switchTab('report')">Report</div>
+        </div>
+
+        <!-- Console Tab -->
+        <div class="tab-content active" id="tab-console">
+          <div class="console" id="console-log">Waiting for scan to start...</div>
+        </div>
+
+        <!-- Findings Tab -->
+        <div class="tab-content" id="tab-findings">
+          <div id="findings-content">
+            <div class="empty"><p>No findings yet</p></div>
+          </div>
+        </div>
+
+        <!-- Report Tab -->
+        <div class="tab-content" id="tab-report">
+          <div id="report-content">
+            <div class="empty"><p>Report will appear after scan completes</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History View -->
+    <div id="view-history" style="display:none">
+      <div class="card">
+        <div class="card-header"><h3>Scan History</h3></div>
+        <div class="card-body" id="history-view-content">
+          <div class="empty"><p>No scans completed yet</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentMode = 'hybrid';
+let currentScanId = null;
+let eventSource = null;
+let pollInterval = null;
+
+// ── Init ──────────────────────────────────────────
+window.addEventListener('load', () => {
+  loadModules();
+  loadHistory();
+});
+
+// ── Mode selector ─────────────────────────────────
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btns button').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+}
+
+// ── Load modules ──────────────────────────────────
+async function loadModules() {
+  try {
+    const r = await fetch('/api/modules');
+    const data = await r.json();
+    const container = document.getElementById('module-checkboxes');
+    const all = {...data.passive, ...data.active};
+    for (const [name, desc] of Object.entries(all)) {
+      const tag = document.createElement('label');
+      tag.style.cssText = 'display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border2);padding:4px 8px;border-radius:4px;cursor:pointer;font-size:.8rem;font-family:var(--mono)';
+      tag.innerHTML = `<input type="checkbox" value="${name}" style="accent-color:var(--accent)"> ${name}`;
+      tag.title = desc;
+      container.appendChild(tag);
+    }
+  } catch(e) { console.error('Failed to load modules:', e); }
+}
+
+// ── Start scan ────────────────────────────────────
+async function startScan() {
+  const target = document.getElementById('target').value.trim();
+  if (!target) { alert('Enter a target domain'); return; }
+
+  const modules = [...document.querySelectorAll('#module-checkboxes input:checked')].map(c => c.value);
+  const threads = parseInt(document.getElementById('threads').value) || 10;
+
+  document.getElementById('btn-scan').disabled = true;
+  document.getElementById('btn-scan').textContent = '⏳ Scanning...';
+
+  try {
+    const r = await fetch('/api/scan', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({target, mode: currentMode, modules: modules.length ? modules : null, threads})
+    });
+    const data = await r.json();
+    currentScanId = data.scan_id;
+
+    showView('scan');
+    document.getElementById('view-results').style.display = '';
+    document.getElementById('console-log').textContent = '';
+    resetStats();
+
+    // SSE for live logs
+    startSSE(data.scan_id);
+    // Poll for results
+    startPolling(data.scan_id);
+
+  } catch(e) {
+    alert('Failed to start scan: ' + e);
+    document.getElementById('btn-scan').disabled = false;
+    document.getElementById('btn-scan').textContent = '⚡ Start Scan';
+  }
+}
+
+// ── SSE streaming ─────────────────────────────────
+function startSSE(scanId) {
+  if (eventSource) eventSource.close();
+  eventSource = new EventSource(`/api/scan/${scanId}/stream`);
+  eventSource.onmessage = (e) => {
+    const data = JSON.parse(e.data);
+    if (data.type === 'log') {
+      appendLog(data.message);
+    } else if (data.type === 'done') {
+      appendLog(`\n✅ Scan finished — ${data.findings_count} findings`);
+      eventSource.close();
+      loadHistory();
+    }
+  };
+  eventSource.onerror = () => { eventSource.close(); };
+}
+
+// ── Poll for results ──────────────────────────────
+function startPolling(scanId) {
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(async () => {
+    try {
+      const r = await fetch(`/api/scan/${scanId}`);
+      const scan = await r.json();
+      updateStats(scan.findings || []);
+
+      if (scan.status === 'completed' || scan.status === 'error') {
+        clearInterval(pollInterval);
+        document.getElementById('btn-scan').disabled = false;
+        document.getElementById('btn-scan').textContent = '⚡ Start Scan';
+        renderFindings(scan.findings || []);
+        renderReport(scan);
+      }
+    } catch(e) {}
+  }, 2000);
+}
+
+// ── Console log ───────────────────────────────────
+function appendLog(msg) {
+  const el = document.getElementById('console-log');
+  const line = document.createElement('div');
+  if (msg.includes('[') && msg.includes(']')) {
+    const parts = msg.match(/^(\[[\d:]+\])\s*(.*)$/);
+    if (parts) {
+      line.innerHTML = `<span class="ts">${esc(parts[1])}</span> <span class="${msg.includes('❌')?'err':msg.includes('▸')?'info':'msg'}">${esc(parts[2])}</span>`;
+    } else {
+      line.textContent = msg;
+    }
+  } else {
+    line.textContent = msg;
+  }
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+// ── Stats ─────────────────────────────────────────
+function resetStats() {
+  ['critical','high','medium','low','info'].forEach(s => document.getElementById(`stat-${s}`).textContent = '0');
+}
+function updateStats(findings) {
+  const counts = {critical:0,high:0,medium:0,low:0,info:0};
+  findings.forEach(f => { const s = (f.severity||'info').toLowerCase(); counts[s] = (counts[s]||0)+1; });
+  for (const [k,v] of Object.entries(counts)) document.getElementById(`stat-${k}`).textContent = v;
+}
+
+// ── Findings table ────────────────────────────────
+function renderFindings(findings) {
+  if (!findings.length) {
+    document.getElementById('findings-content').innerHTML = '<div class="empty"><p>No findings</p></div>';
+    return;
+  }
+  const order = {critical:0,high:1,medium:2,low:3,info:4};
+  findings.sort((a,b) => (order[a.severity]||5)-(order[b.severity]||5));
+
+  let html = '<table class="findings-table"><thead><tr><th>Severity</th><th>Finding</th><th>Detail</th></tr></thead><tbody>';
+  findings.forEach(f => {
+    const sev = (f.severity||'info').toLowerCase();
+    html += `<tr><td><span class="badge ${sev}">${sev}</span></td><td>${esc(f.title||'')}</td><td style="color:var(--fg3);max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc((f.detail||'').substring(0,120))}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('findings-content').innerHTML = html;
+}
+
+// ── Report ────────────────────────────────────────
+function renderReport(scan) {
+  let html = '';
+  if (scan.report_md) {
+    // Simple markdown rendering
+    html = `<div style="font-family:var(--mono);font-size:.8rem;line-height:1.7;white-space:pre-wrap;color:var(--fg2)">${esc(scan.report_md)}</div>`;
+    html += `<div style="margin-top:12px;display:flex;gap:8px">
+      <a href="/api/scan/${scan.id}/download/md" style="color:var(--accent);text-decoration:none;font-size:.85rem">📄 Download Markdown</a>
+      <a href="/api/scan/${scan.id}/download/json" style="color:var(--accent);text-decoration:none;font-size:.85rem">📊 Download JSON</a>
+    </div>`;
+  } else {
+    html = '<div class="empty"><p>No report generated</p></div>';
+  }
+  document.getElementById('report-content').innerHTML = html;
+}
+
+// ── Tabs ──────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab[onclick="switchTab('${name}')"]`).classList.add('active');
+  document.getElementById(`tab-${name}`).classList.add('active');
+}
+
+// ── Views ─────────────────────────────────────────
+function showView(name) {
+  document.querySelectorAll('header nav button').forEach(b => b.classList.remove('active'));
+  event?.target?.classList?.add('active');
+  if (name === 'history') {
+    document.getElementById('view-scan').style.display = 'none';
+    document.getElementById('view-results').style.display = 'none';
+    document.getElementById('view-history').style.display = '';
+    renderHistoryView();
+  } else {
+    document.getElementById('view-scan').style.display = '';
+    document.getElementById('view-history').style.display = 'none';
+  }
+}
+
+// ── History ───────────────────────────────────────
+async function loadHistory() {
+  try {
+    const r = await fetch('/api/scans');
+    const scans = await r.json();
+    renderHistorySidebar(scans);
+    window._scans = scans;
+  } catch(e) {}
+}
+
+function renderHistorySidebar(scans) {
+  const el = document.getElementById('history-list');
+  if (!scans.length) { el.innerHTML = '<div class="empty"><p>No scans yet</p></div>'; return; }
+  el.innerHTML = scans.map(s => `
+    <div class="scan-item" onclick="viewScan('${s.id}')">
+      <div>
+        <div class="target"><span class="status ${s.status}"></span>${esc(s.target)}</div>
+        <div class="meta">${s.mode} · ${s.findings_count} findings</div>
+      </div>
+      <div class="meta">${s.status}</div>
+    </div>
+  `).join('');
+}
+
+async function renderHistoryView() {
+  const r = await fetch('/api/scans');
+  const scans = await r.json();
+  const el = document.getElementById('history-view-content');
+  if (!scans.length) { el.innerHTML = '<div class="empty"><p>No scans completed yet</p></div>'; return; }
+  let html = '<table class="findings-table"><thead><tr><th>Target</th><th>Mode</th><th>Status</th><th>Findings</th><th>Actions</th></tr></thead><tbody>';
+  scans.forEach(s => {
+    html += `<tr>
+      <td style="font-family:var(--mono)">${esc(s.target)}</td>
+      <td>${s.mode}</td>
+      <td><span class="badge ${s.status==='completed'?'low':s.status==='error'?'critical':'info'}">${s.status}</span></td>
+      <td>${s.findings_count}</td>
+      <td><a href="/api/scan/${s.id}" style="color:var(--accent)" onclick="event.preventDefault();viewScan('${s.id}')">View</a></td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+async function viewScan(scanId) {
+  const r = await fetch(`/api/scan/${scanId}`);
+  const scan = await r.json();
+  currentScanId = scanId;
+
+  showView('scan');
+  document.getElementById('view-results').style.display = '';
+  document.getElementById('target').value = scan.target;
+  setMode(scan.mode);
+
+  resetStats();
+  updateStats(scan.findings || []);
+  renderFindings(scan.findings || []);
+  renderReport(scan);
+
+  // Load logs
+  const lr = await fetch(`/api/scan/${scanId}/logs`);
+  const logData = await lr.json();
+  document.getElementById('console-log').textContent = '';
+  (logData.logs || []).forEach(l => appendLog(l));
+
+  switchTab('findings');
+}
+
+// ── Utility ───────────────────────────────────────
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// Enter key to start scan
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.activeElement?.id === 'target') startScan();
+});
+</script>
+</body>
+</html>
