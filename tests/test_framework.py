@@ -56,7 +56,6 @@ class TestModules:
         from recon_framework.modules.asset_ranker import AssetRanker
         from recon_framework.modules.report_generator import ReportGenerator
         
-        # Verify all modules have required attributes
         for cls in [DNSEnum, CertTransparency, WaybackURLs, JSAnalyzer,
                      PortScanner, TechFingerprint, HeaderAnalysis,
                      DirBruteforce, EndpointProbe, Bypass403,
@@ -83,13 +82,55 @@ class TestModules:
 
 class TestCLI:
     def test_cli_import(self):
-        from recon_framework.cli import main, parse_args, list_modules
+        from recon_framework.cli import main, parse_args
         assert callable(main)
     
     def test_orchestrator_import(self):
         from recon_framework.orchestrator import Orchestrator, PASSIVE_MODULES, ACTIVE_MODULES
         assert len(PASSIVE_MODULES) > 0
         assert len(ACTIVE_MODULES) > 0
+
+
+class TestFingerprintEngine:
+    def test_engine_loads(self):
+        from recon_framework.utils.fingerprints import FINGERPRINTS, CATEGORIES
+        assert len(FINGERPRINTS) >= 200
+        assert len(CATEGORIES) >= 40
+    
+    def test_engine_matching(self):
+        from recon_framework.utils.engine import FingerprintEngine
+        eng = FingerprintEngine()
+        matches = eng.analyze(
+            headers={"Server": "nginx/1.24.0", "X-Powered-By": "PHP/8.2.10", "CF-RAY": "abc"},
+            cookies=["PHPSESSID", "__cf_bm"],
+            body='<meta name="generator" content="WordPress 6.5">',
+            script_sources=["https://example.com/wp-includes/js/jquery.min.js"],
+        )
+        names = [m.name for m in matches]
+        assert "Nginx" in names
+        assert "PHP" in names
+        assert "WordPress" in names
+        assert "Cloudflare" in names
+        assert "jQuery" in names
+    
+    def test_version_extraction(self):
+        from recon_framework.utils.engine import FingerprintEngine
+        eng = FingerprintEngine()
+        matches = eng.analyze(headers={"Server": "nginx/1.24.0", "X-Powered-By": "PHP/8.2.10"})
+        nginx = next(m for m in matches if m.name == "Nginx")
+        assert nginx.version == "1.24.0"
+        php = next(m for m in matches if m.name == "PHP")
+        assert php.version == "8.2.10"
+    
+    def test_no_false_positive_django(self):
+        from recon_framework.utils.engine import FingerprintEngine
+        eng = FingerprintEngine()
+        matches = eng.analyze(
+            headers={"X-Frame-Options": "DENY", "Server": "nginx"},
+            cookies=["XSRF-TOKEN"],
+        )
+        names = [m.name for m in matches]
+        assert "Django" not in names
 
 
 if __name__ == "__main__":

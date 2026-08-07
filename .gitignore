@@ -33,8 +33,3 @@ Thumbs.db
 # Env files
 .env
 .env.local
-.git/
-recon-output/
-__pycache__/
-*.egg-info/
-.env

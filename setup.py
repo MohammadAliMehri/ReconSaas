@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name="recon-framework",
-    version="1.0.0",
-    author="Open Source Community",
-    description="Zero-cost open-source reconnaissance framework with Passive, Active, and Hybrid modes",
-    long_description=open("README.md").read(),
+    version="2.0.0",
+    author="MohammadAliMehri",
+    description="Zero-cost CLI reconnaissance framework with Passive, Active, and Hybrid modes",
+    long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/your-org/recon-framework",
+    url="https://github.com/MohammadAliMehri/ReconSaas",
     packages=find_packages(),
     python_requires=">=3.10",
     install_requires=[
@@ -21,11 +21,7 @@ setup(
         "aiofiles>=23.2.0",
         "python-whois>=0.9.4",
         "colorama>=0.4.6",
-        "jinja2>=3.1.0",
     ],
-    extras_require={
-        "full": ["shodan>=1.31.0", "censys>=2.2.0"],
-    },
     entry_points={
         "console_scripts": [
             "recon=recon_framework.cli:main",
@@ -34,7 +30,6 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
         "Topic :: Security",
     ],
 )

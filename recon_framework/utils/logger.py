@@ -63,39 +63,14 @@ def setup_logging(output_dir: str, verbose: bool = False) -> logging.Logger:
 
 
 def print_banner():
-    """Print the tool banner."""
-    banner = """
-[bold cyan]
-  ____  _____ ____  _   _ ______   _____ _____ _   _ ______ _____  
- |  _ \\| ____/ ___|| \\ | |  _ \\ \\ / /_ _|  ___| \\ | |  ____|  ___| 
- | |_) |  _|| |    |  \\| | | | \\ V / | || |_  |  \\| | |__  | |_    
- |  _ <| |__| |___ | |\\  | |_|  | |  | ||  _| | |\\  |  __| |  _|   
- |_| \\_\\_____\\____||_| \\_|____/  |_| |___|_|   |_| \\_|_|    |_|     
-[/bold cyan]
-[dim]  Zero-cost open-source reconnaissance framework[/dim]
-[dim]  Passive | Active | Hybrid[/dim]
-"""
-    console.print(banner)
+    """Banner is now printed by CLI — this is a no-op for compatibility."""
+    pass
 
 
 def print_mode_banner(mode: str):
-    """Print mode-specific banner."""
-    colors = {"passive": "blue", "active": "red", "hybrid": "magenta"}
-    descriptions = {
-        "passive": "No direct contact with target. Using OSINT, DNS, CT logs, search engines.",
-        "active": "Direct authorized probing. Port scan, dir brute, header analysis, param fuzz.",
-        "hybrid": "Passive expand first, then Active deep probe on ranked targets.",
-    }
-    color = colors.get(mode, "white")
-    desc = descriptions.get(mode, "")
-    
-    panel = Panel(
-        f"[{color}]{desc}[/{color}]",
-        title=f"[bold {color}]{mode.upper()} MODE[/bold {color}]",
-        border_style=color,
-        box=box.DOUBLE,
-    )
-    console.print(panel)
+    """Print compact mode indicator."""
+    icons = {"passive": "[bold blue]PASSIVE[/bold blue]", "active": "[bold red]ACTIVE[/bold red]", "hybrid": "[bold magenta]HYBRID[/bold magenta]"}
+    console.print(f"  Mode: {icons.get(mode, mode)}")
 
 
 def print_module_start(module_name: str, target: str):
