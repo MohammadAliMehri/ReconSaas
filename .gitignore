@@ -33,4 +33,9 @@ Thumbs.db
 # Env files
 .env
 .env.local
-.venv/
+
+# Go binaries
+/recon
+/recon.exe
+/recon-*
+*.exe

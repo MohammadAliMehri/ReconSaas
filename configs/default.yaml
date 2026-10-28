@@ -1,0 +1,24 @@
+version: 1
+mode: passive
+scope:
+  allow_domains: []
+  allow_cidrs: []
+  deny_private_networks: true
+  follow_redirects: false
+limits:
+  global_concurrency: 10
+  per_host_concurrency: 2
+  requests_per_second: 2
+  timeout_seconds: 15
+  max_response_bytes: 2097152
+  max_redirects: 3
+modules:
+  enabled: [dns, certs, wayback, js, tech, headers, dirs, endpoints, bypass, rank, report]
+output:
+  dir: ./recon-output
+  redact_secrets: true
+ai:
+  enabled: false
+  base_url: "http://127.0.0.1:1234/v1"
+  model: ""
+

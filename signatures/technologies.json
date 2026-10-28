@@ -1,0 +1,2486 @@
+{
+  "fingerprints": {
+    "Apache": {
+      "headers": {
+        "Server": "Apache(?:/(\\d[\\d.]*))?"
+      },
+      "version": "Apache(?:/(\\d[\\d.]*))?",
+      "categories": [
+        20
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "Nginx": {
+      "headers": {
+        "Server": "nginx(?:/(\\d[\\d.]*))?"
+      },
+      "version": "nginx(?:/(\\d[\\d.]*))?",
+      "categories": [
+        20,
+        43
+      ]
+    },
+    "Microsoft IIS": {
+      "headers": {
+        "Server": "Microsoft-IIS(?:/(\\d[\\d.]*))?"
+      },
+      "version": "Microsoft-IIS(?:/(\\d[\\d.]*))?",
+      "categories": [
+        20
+      ],
+      "implies": [
+        "ASP.NET"
+      ]
+    },
+    "LiteSpeed": {
+      "headers": {
+        "Server": "LiteSpeed(?:/(\\d[\\d.]*))?"
+      },
+      "version": "LiteSpeed(?:/(\\d[\\d.]*))?",
+      "categories": [
+        20
+      ]
+    },
+    "Tengine": {
+      "headers": {
+        "Server": "Tengine(?:/(\\d[\\d.]*))?"
+      },
+      "version": "Tengine(?:/(\\d[\\d.]*))?",
+      "categories": [
+        20
+      ]
+    },
+    "Caddy": {
+      "headers": {
+        "Server": "Caddy"
+      },
+      "categories": [
+        20
+      ]
+    },
+    "Gunicorn": {
+      "headers": {
+        "Server": "gunicorn(?:/(\\d[\\d.]*))?"
+      },
+      "version": "gunicorn(?:/(\\d[\\d.]*))?",
+      "categories": [
+        20
+      ]
+    },
+    "Uvicorn": {
+      "headers": {
+        "Server": "uvicorn"
+      },
+      "categories": [
+        20
+      ]
+    },
+    "OpenResty": {
+      "headers": {
+        "Server": "openresty(?:/(\\d[\\d.]*))?"
+      },
+      "version": "openresty(?:/(\\d[\\d.]*))?",
+      "categories": [
+        20
+      ]
+    },
+    "Cherokee": {
+      "headers": {
+        "Server": "Cherokee(?:/(\\d[\\d.]*))?"
+      },
+      "version": "Cherokee(?:/(\\d[\\d.]*))?",
+      "categories": [
+        20
+      ]
+    },
+    "Jetty": {
+      "headers": {
+        "Server": "Jetty(?:\\((\\d[\\d.]*))?\\)?"
+      },
+      "version": "Jetty\\((\\d[\\d.]*)",
+      "categories": [
+        20
+      ]
+    },
+    "Varnish": {
+      "headers": {
+        "Via": "varnish",
+        "X-Varnish": "."
+      },
+      "categories": [
+        20,
+        21
+      ]
+    },
+    "Envoy": {
+      "headers": {
+        "Server": "envoy",
+        "x-envoy-upstream-service-time": "\\d+"
+      },
+      "categories": [
+        20,
+        43,
+        44
+      ]
+    },
+    "Kestrel": {
+      "headers": {
+        "Server": "Kestrel"
+      },
+      "categories": [
+        20
+      ],
+      "implies": [
+        "ASP.NET"
+      ]
+    },
+    "Cloudflare": {
+      "headers": {
+        "Server": "cloudflare",
+        "CF-RAY": ".+",
+        "cf-cache-status": "."
+      },
+      "cookies": [
+        "__cflb",
+        "__cfuid",
+        "__cf_bm",
+        "cf_clearance"
+      ],
+      "categories": [
+        27,
+        16
+      ]
+    },
+    "Amazon CloudFront": {
+      "headers": {
+        "Server": "CloudFront",
+        "X-Amz-Cf-Id": ".+",
+        "X-Amz-Cf-Pop": ".+",
+        "x-amzn-requestid": "."
+      },
+      "categories": [
+        27
+      ],
+      "implies": [
+        "Amazon Web Services"
+      ]
+    },
+    "Akamai": {
+      "headers": {
+        "X-Akamai-Transformed": ".+",
+        "Server": "AkamaiGHost"
+      },
+      "categories": [
+        27,
+        16
+      ]
+    },
+    "Fastly": {
+      "headers": {
+        "X-Served-By": ".+",
+        "X-Cache": ".+",
+        "Via": "varnish"
+      },
+      "categories": [
+        27
+      ]
+    },
+    "Imperva (Incapsula)": {
+      "headers": {
+        "X-Iinfo": ".+",
+        "X-CDN": "Incapsula"
+      },
+      "cookies": [
+        "visid_incap_",
+        "incap_ses_",
+        "nlbi_"
+      ],
+      "categories": [
+        27,
+        16
+      ]
+    },
+    "Sucuri": {
+      "headers": {
+        "Server": "Sucuri",
+        "X-Sucuri-ID": ".+",
+        "X-Sucuri-Cache": "."
+      },
+      "categories": [
+        27,
+        16
+      ]
+    },
+    "AWS WAF": {
+      "cookies": [
+        "aws-waf-token"
+      ],
+      "categories": [
+        16
+      ],
+      "implies": [
+        "Amazon Web Services"
+      ]
+    },
+    "Azure Front Door": {
+      "headers": {
+        "X-Azure-Ref": ".+",
+        "X-FD-HealthProbe": "."
+      },
+      "categories": [
+        27,
+        41
+      ]
+    },
+    "Google Cloud CDN": {
+      "headers": {
+        "Via": "1\\.1 google",
+        "Server": "GSE|Golfe2"
+      },
+      "categories": [
+        27
+      ]
+    },
+    "StackPath": {
+      "headers": {
+        "Server": "NetDNA|StackPath",
+        "X-HW": "."
+      },
+      "categories": [
+        27
+      ]
+    },
+    "KeyCDN": {
+      "headers": {
+        "Server": "keycdn"
+      },
+      "categories": [
+        27
+      ]
+    },
+    "BunnyCDN": {
+      "headers": {
+        "Server": "BunnyCDN",
+        "CDN-PullZone": "."
+      },
+      "categories": [
+        27
+      ]
+    },
+    "ArvanCloud": {
+      "headers": {
+        "Server": "ArvanCloud"
+      },
+      "categories": [
+        27,
+        16
+      ]
+    },
+    "PHP": {
+      "headers": {
+        "X-Powered-By": "PHP(?:/(\\d[\\d.]*))?"
+      },
+      "cookies": [
+        "PHPSESSID"
+      ],
+      "version": "PHP(?:/(\\d[\\d.]*))?",
+      "categories": [
+        47
+      ]
+    },
+    "ASP.NET": {
+      "headers": {
+        "X-Powered-By": "ASP\\.NET",
+        "X-AspNet-Version": "([\\d.]+)",
+        "X-AspNetMvc-Version": "([\\d.]+)"
+      },
+      "cookies": [
+        "ASP.NET_SessionId",
+        "__VIEWSTATE",
+        "__RequestVerificationToken"
+      ],
+      "html": [
+        "__VIEWSTATE",
+        "__EVENTVALIDATION",
+        "aspnetForm"
+      ],
+      "version": "X-AspNet(?:Mvc)?-Version:\\s*([\\d.]+)",
+      "categories": [
+        18,
+        47
+      ]
+    },
+    "Java": {
+      "cookies": [
+        "JSESSIONID"
+      ],
+      "headers": {
+        "X-Powered-By": "Servlet|JSP|Java"
+      },
+      "categories": [
+        47
+      ]
+    },
+    "Python": {
+      "headers": {
+        "Server": "Python|WSGI",
+        "X-Powered-By": "Python"
+      },
+      "categories": [
+        47
+      ]
+    },
+    "Ruby": {
+      "headers": {
+        "X-Powered-By": "Phusion Passenger|mod_rack|mod_rails"
+      },
+      "categories": [
+        47
+      ]
+    },
+    "Go": {
+      "headers": {
+        "Server": "Go-http"
+      },
+      "categories": [
+        47
+      ]
+    },
+    "Perl": {
+      "headers": {
+        "Server": "\\bPerl\\b",
+        "X-Powered-By": "\\bPerl\\b"
+      },
+      "categories": [
+        47
+      ]
+    },
+    "Scala": {
+      "headers": {
+        "X-Powered-By": "Play Framework|Scala"
+      },
+      "categories": [
+        47
+      ]
+    },
+    "Erlang": {
+      "headers": {
+        "X-Powered-By": "Cowboy"
+      },
+      "categories": [
+        47
+      ]
+    },
+    "ColdFusion": {
+      "headers": {
+        "X-Powered-By": "CFML|ColdFusion"
+      },
+      "cookies": [
+        "CFID",
+        "CFTOKEN"
+      ],
+      "categories": [
+        47
+      ]
+    },
+    "jQuery": {
+      "scripts": [
+        "jquery[.-](\\d[\\d.]*)(?:\\.min)?\\.js",
+        "jquery(?:\\.min)?\\.js"
+      ],
+      "html": [
+        "jquery[.-]\\d[\\d.]*\\.js",
+        "jquery(?:\\.min)?\\.js"
+      ],
+      "js": [
+        "jQuery.fn.jquery"
+      ],
+      "version": "jquery[.-](\\d[\\d.]*)",
+      "categories": [
+        12
+      ]
+    },
+    "React": {
+      "html": [
+        "data-reactroot",
+        "_reactRootContainer",
+        "__REACT_DEVTOOLS_GLOBAL_HOOK__"
+      ],
+      "js": [
+        "React.version",
+        "__REACT_DEVTOOLS_GLOBAL_HOOK__"
+      ],
+      "scripts": [
+        "react(?:\\.production)?(?:\\.min)?\\.js",
+        "react-dom"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "Vue.js": {
+      "html": [
+        "data-v-",
+        "v-bind:",
+        "v-on:",
+        "v-if=",
+        "v-for="
+      ],
+      "js": [
+        "Vue.config",
+        "__vue__",
+        "Vue.version"
+      ],
+      "scripts": [
+        "vue(?:\\.min)?\\.js",
+        "vue(?:\\.runtime)?(?:\\.prod)?\\.js"
+      ],
+      "version": "Vue\\.version\\s*=\\s*['\\\"]([\\d.]+)",
+      "categories": [
+        12
+      ]
+    },
+    "Angular": {
+      "html": [
+        "ng-version",
+        "ng-app=",
+        "ng-controller=",
+        "\\[ngClass\\]",
+        "\\*ngFor"
+      ],
+      "js": [
+        "ng.version",
+        "angular.version"
+      ],
+      "scripts": [
+        "angular(?:\\.min)?\\.js",
+        "@angular/core"
+      ],
+      "version": "ng-version=['\\\"]([\\d.]+)",
+      "categories": [
+        12
+      ]
+    },
+    "Next.js": {
+      "html": [
+        "__NEXT_DATA__",
+        "/_next/static",
+        "id=\\\"__next\\\""
+      ],
+      "js": [
+        "__NEXT_DATA__",
+        "__next"
+      ],
+      "scripts": [
+        "/_next/static/"
+      ],
+      "categories": [
+        12,
+        18,
+        50
+      ]
+    },
+    "Nuxt.js": {
+      "html": [
+        "__NUXT__",
+        "/_nuxt/",
+        "nuxt-link"
+      ],
+      "js": [
+        "__NUXT__",
+        "$nuxt"
+      ],
+      "categories": [
+        12,
+        18
+      ]
+    },
+    "Svelte": {
+      "html": [
+        "__svelte",
+        "svelte-"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "Gatsby": {
+      "html": [
+        "___gatsby",
+        "id=\\\"___gatsby\\\""
+      ],
+      "scripts": [
+        "/webpack-runtime-"
+      ],
+      "categories": [
+        12,
+        50
+      ]
+    },
+    "Ember.js": {
+      "html": [
+        "ember-view",
+        "id=\\\"ember\\d+\\\""
+      ],
+      "js": [
+        "Ember.VERSION"
+      ],
+      "version": "Ember\\.VERSION\\s*=\\s*['\\\"]([\\d.]+)",
+      "categories": [
+        12
+      ]
+    },
+    "Backbone.js": {
+      "js": [
+        "Backbone.VERSION"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "D3.js": {
+      "scripts": [
+        "d3(?:\\.v\\d+)?(?:\\.min)?\\.js"
+      ],
+      "js": [
+        "d3.version"
+      ],
+      "categories": [
+        12,
+        23
+      ]
+    },
+    "Three.js": {
+      "scripts": [
+        "three(?:\\.min)?\\.js"
+      ],
+      "js": [
+        "THREE.REVISION"
+      ],
+      "categories": [
+        12,
+        23
+      ]
+    },
+    "Lodash": {
+      "scripts": [
+        "lodash(?:\\.min)?\\.js"
+      ],
+      "js": [
+        "_.VERSION"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "Moment.js": {
+      "scripts": [
+        "moment(?:\\.min)?\\.js"
+      ],
+      "js": [
+        "moment.version"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "Axios": {
+      "scripts": [
+        "axios(?:\\.min)?\\.js"
+      ],
+      "js": [
+        "axios.defaults"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "RequireJS": {
+      "scripts": [
+        "require(?:\\.min)?\\.js"
+      ],
+      "js": [
+        "requirejs.version",
+        "require.version"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "Webpack": {
+      "html": [
+        "__webpack_require__",
+        "webpackJsonp",
+        "webpackChunk"
+      ],
+      "js": [
+        "__webpack_require__"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "Alpine.js": {
+      "html": [
+        "x-data=",
+        "x-on:",
+        "x-show=",
+        "x-bind:"
+      ],
+      "scripts": [
+        "alpinejs(?:/.*)?/alpine"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "htmx": {
+      "html": [
+        "hx-get=",
+        "hx-post=",
+        "hx-swap=",
+        "hx-target="
+      ],
+      "scripts": [
+        "htmx(?:\\.min)?\\.js"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "Stimulus": {
+      "html": [
+        "data-controller="
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "Turbo": {
+      "html": [
+        "data-turbo",
+        "<turbo-"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "WordPress": {
+      "html": [
+        "wp-content/",
+        "wp-includes/",
+        "wp-json",
+        "/xmlrpc\\.php"
+      ],
+      "meta": {
+        "generator": "WordPress(?:\\s*([\\d.]+))?"
+      },
+      "scripts": [
+        "wp-includes/js/",
+        "wp-content/plugins/"
+      ],
+      "cookies": [
+        "wordpress_logged_in_",
+        "wp-settings-"
+      ],
+      "url": [
+        "/wp-admin/",
+        "/wp-login.php",
+        "/wp-json/",
+        "/xmlrpc.php"
+      ],
+      "version": "WordPress\\s*([\\d.]+)",
+      "categories": [
+        1,
+        11
+      ],
+      "implies": [
+        "PHP",
+        "MySQL"
+      ]
+    },
+    "Drupal": {
+      "html": [
+        "Drupal\\.settings",
+        "/sites/default/files",
+        "drupal\\.js",
+        "/core/misc/drupal\\.js"
+      ],
+      "meta": {
+        "generator": "Drupal\\s*([\\d.]+)?"
+      },
+      "cookies": [
+        "SSESS",
+        "Drupal."
+      ],
+      "version": "Drupal\\s*([\\d.]+)",
+      "categories": [
+        1
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "Joomla": {
+      "html": [
+        "/media/jui/",
+        "Joomla!",
+        "/components/com_"
+      ],
+      "meta": {
+        "generator": "Joomla!\\s*([\\d.]+)?"
+      },
+      "cookies": [
+        "joomla_"
+      ],
+      "version": "Joomla!\\s*([\\d.]+)",
+      "categories": [
+        1
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "Shopify": {
+      "html": [
+        "Shopify\\.theme",
+        "cdn\\.shopify\\.com",
+        "<meta property=['\\\"]og:shopify"
+      ],
+      "cookies": [
+        "_shopify_",
+        "_storefront_digest"
+      ],
+      "categories": [
+        1,
+        6
+      ]
+    },
+    "Squarespace": {
+      "html": [
+        "<!-- This is Squarespace",
+        "squarespace-cdn",
+        "static\\.squarespace\\.com"
+      ],
+      "categories": [
+        1
+      ]
+    },
+    "Wix": {
+      "html": [
+        "wix\\.com",
+        "X-Wix-",
+        "static\\.wixstatic\\.com"
+      ],
+      "headers": {
+        "X-Wix-": "."
+      },
+      "categories": [
+        1
+      ]
+    },
+    "Ghost": {
+      "html": [
+        "ghost-url",
+        "content/themes/ghost",
+        "ghost\\.min\\.js"
+      ],
+      "meta": {
+        "generator": "Ghost(?:\\s*([\\d.]+))?"
+      },
+      "version": "Ghost\\s*([\\d.]+)",
+      "categories": [
+        1,
+        11
+      ]
+    },
+    "Hugo": {
+      "html": [
+        "Powered by Hugo",
+        "hugo\\.min\\.css"
+      ],
+      "meta": {
+        "generator": "Hugo\\s*([\\d.]+)?"
+      },
+      "version": "Hugo\\s*([\\d.]+)",
+      "categories": [
+        1,
+        50
+      ]
+    },
+    "TYPO3": {
+      "html": [
+        "typo3",
+        "typo3conf/",
+        "typo3temp/"
+      ],
+      "categories": [
+        1
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "Magento": {
+      "html": [
+        "/skin/frontend/",
+        "Magento",
+        "mage/cookies\\.js",
+        "requirejs-config\\.js"
+      ],
+      "cookies": [
+        "frontend=",
+        "store="
+      ],
+      "categories": [
+        1,
+        6
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "PrestaShop": {
+      "html": [
+        "PrestaShop",
+        "/themes/.*?/assets/"
+      ],
+      "categories": [
+        1,
+        6
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "WooCommerce": {
+      "html": [
+        "woocommerce",
+        "wc-api=",
+        "add-to-cart="
+      ],
+      "categories": [
+        6
+      ],
+      "implies": [
+        "WordPress"
+      ]
+    },
+    "BigCommerce": {
+      "html": [
+        "cdn\\d*\\.bigcommerce\\.com"
+      ],
+      "categories": [
+        6
+      ]
+    },
+    "Webflow": {
+      "html": [
+        "data-wf-site=",
+        "assets\\.website-files\\.com"
+      ],
+      "categories": [
+        1
+      ]
+    },
+    "Contentful": {
+      "html": [
+        "contentful",
+        "ctfassets\\.net"
+      ],
+      "categories": [
+        1
+      ]
+    },
+    "Strapi": {
+      "html": [
+        "strapi",
+        "/admin/"
+      ],
+      "categories": [
+        1
+      ],
+      "implies": [
+        "Node.js"
+      ]
+    },
+    "Sanity": {
+      "html": [
+        "cdn\\.sanity\\.io"
+      ],
+      "categories": [
+        1
+      ]
+    },
+    "Umbraco": {
+      "html": [
+        "umbraco",
+        "/umbraco/"
+      ],
+      "categories": [
+        1
+      ],
+      "implies": [
+        "ASP.NET"
+      ]
+    },
+    "Sitecore": {
+      "html": [
+        "sitecore",
+        "/sitecore/"
+      ],
+      "categories": [
+        1
+      ],
+      "implies": [
+        "ASP.NET"
+      ]
+    },
+    "Laravel": {
+      "cookies": [
+        "laravel_session",
+        "XSRF-TOKEN"
+      ],
+      "html": [
+        "laravel",
+        "csrf-token"
+      ],
+      "categories": [
+        18
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "Django": {
+      "cookies": [
+        "csrftoken",
+        "django_language"
+      ],
+      "html": [
+        "csrfmiddlewaretoken",
+        "__admin_media_prefix__",
+        "django\\.contrib",
+        "/static/admin/"
+      ],
+      "categories": [
+        18
+      ],
+      "implies": [
+        "Python"
+      ]
+    },
+    "Flask": {
+      "headers": {
+        "Server": "Werkzeug"
+      },
+      "categories": [
+        18
+      ],
+      "implies": [
+        "Python"
+      ]
+    },
+    "FastAPI": {
+      "html": [
+        "<title>FastAPI</title>",
+        "swagger-ui",
+        "BearerAuth",
+        "fastapi\\.cloud*"
+      ],
+      "url": [
+        "/docs",
+        "/redoc",
+        "/openapi.json"
+      ],
+      "headers": {
+        "Server": "uvicorn"
+      },
+      "categories": [
+        18
+      ],
+      "implies": [
+        "Python"
+      ]
+    },
+    "Express": {
+      "headers": {
+        "X-Powered-By": "Express"
+      },
+      "categories": [
+        18
+      ],
+      "implies": [
+        "Node.js"
+      ]
+    },
+    "Ruby on Rails": {
+      "cookies": [
+        "_session_id"
+      ],
+      "headers": {
+        "X-Powered-By": "Phusion Passenger|mod_rack"
+      },
+      "html": [
+        "csrf-token",
+        "data-turbolinks"
+      ],
+      "categories": [
+        18
+      ],
+      "implies": [
+        "Ruby"
+      ]
+    },
+    "Spring": {
+      "headers": {
+        "X-Application-Context": "."
+      },
+      "url": [
+        "/actuator",
+        "/actuator/health"
+      ],
+      "categories": [
+        18
+      ],
+      "implies": [
+        "Java"
+      ]
+    },
+    "Symfony": {
+      "cookies": [
+        "_sf2_"
+      ],
+      "html": [
+        "sf-toolbar"
+      ],
+      "categories": [
+        18
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "CakePHP": {
+      "cookies": [
+        "CAKEPHP="
+      ],
+      "categories": [
+        18
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "CodeIgniter": {
+      "cookies": [
+        "ci_session"
+      ],
+      "categories": [
+        18
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "Zend Framework": {
+      "headers": {
+        "X-Powered-By": "Zend"
+      },
+      "categories": [
+        18
+      ],
+      "implies": [
+        "PHP"
+      ]
+    },
+    "NestJS": {
+      "headers": {
+        "X-Powered-By": "NestJS"
+      },
+      "categories": [
+        18
+      ],
+      "implies": [
+        "Node.js"
+      ]
+    },
+    "SvelteKit": {
+      "html": [
+        "data-sveltekit",
+        "sveltekit:"
+      ],
+      "categories": [
+        18
+      ]
+    },
+    "Remix": {
+      "html": [
+        "__remixContext",
+        "data Remix"
+      ],
+      "js": [
+        "__remixContext"
+      ],
+      "categories": [
+        18
+      ]
+    },
+    "Astro": {
+      "html": [
+        "is:astro",
+        "astro:"
+      ],
+      "categories": [
+        18,
+        50
+      ]
+    },
+    "Tailwind CSS": {
+      "html": [
+        "tailwindcss",
+        "class=\\\"[^\\\"]*(?:flex|grid|p-\\d|m-\\d|text-\\w+)"
+      ],
+      "scripts": [
+        "tailwindcss"
+      ],
+      "categories": [
+        18
+      ]
+    },
+    "Bootstrap": {
+      "html": [
+        "bootstrap(?:\\.min)?\\.(?:css|js)",
+        "navbar-default",
+        "col-(?:xs|sm|md|lg)-"
+      ],
+      "scripts": [
+        "bootstrap(?:\\.min)?\\.js"
+      ],
+      "categories": [
+        18
+      ]
+    },
+    "Foundation": {
+      "html": [
+        "foundation(?:\\.min)?\\.(?:css|js)"
+      ],
+      "categories": [
+        18
+      ]
+    },
+    "Bulma": {
+      "html": [
+        "bulma(?:\\.min)?\\.css"
+      ],
+      "categories": [
+        18
+      ]
+    },
+    "Materialize CSS": {
+      "html": [
+        "materialize(?:\\.min)?\\.(?:css|js)"
+      ],
+      "categories": [
+        18
+      ]
+    },
+    "Semantic UI": {
+      "html": [
+        "semantic(?:\\.min)?\\.(?:css|js)"
+      ],
+      "categories": [
+        18
+      ]
+    },
+    "MySQL": {
+      "headers": {
+        "X-Powered-By": "MySQL"
+      },
+      "html": [
+        "mysql",
+        "mysqli_"
+      ],
+      "categories": [
+        38
+      ]
+    },
+    "PostgreSQL": {
+      "html": [
+        "pg_connect",
+        "psycopg2",
+        "pg_query"
+      ],
+      "headers": {
+        "X-Powered-By": "PostgreSQL"
+      },
+      "categories": [
+        38
+      ]
+    },
+    "MongoDB": {
+      "html": [
+        "mongodb://",
+        "mongoose\\.connect",
+        "MongoClient"
+      ],
+      "headers": {
+        "X-Powered-By": "MongoDB"
+      },
+      "categories": [
+        38
+      ]
+    },
+    "Redis": {
+      "headers": {
+        "X-Powered-By": "Redis"
+      },
+      "categories": [
+        38,
+        21
+      ]
+    },
+    "SQLite": {
+      "html": [
+        "sqlite"
+      ],
+      "categories": [
+        38
+      ]
+    },
+    "Elasticsearch": {
+      "headers": {
+        "X-elastic-product": "Elasticsearch"
+      },
+      "url": [
+        "/_cluster/health",
+        "/_cat/"
+      ],
+      "categories": [
+        28,
+        38
+      ]
+    },
+    "Microsoft SQL Server": {
+      "html": [
+        "mssql",
+        "sqlserver"
+      ],
+      "categories": [
+        38
+      ]
+    },
+    "Oracle": {
+      "html": [
+        "oracle",
+        "ORA-\\d{5}"
+      ],
+      "categories": [
+        38
+      ]
+    },
+    "Cassandra": {
+      "headers": {
+        "Server": "Cassandra"
+      },
+      "categories": [
+        38
+      ]
+    },
+    "CouchDB": {
+      "headers": {
+        "Server": "CouchDB"
+      },
+      "categories": [
+        38
+      ]
+    },
+    "Google Analytics": {
+      "scripts": [
+        "google-analytics\\.com/analytics\\.js",
+        "googletagmanager\\.com/gtag/js",
+        "ga\\.js"
+      ],
+      "html": [
+        "google-analytics\\.com",
+        "gtag\\(",
+        "ga\\("
+      ],
+      "js": [
+        "ga",
+        "gtag",
+        "_gaq",
+        "dataLayer"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Google Tag Manager": {
+      "scripts": [
+        "googletagmanager\\.com"
+      ],
+      "html": [
+        "GTM-\\w+"
+      ],
+      "js": [
+        "dataLayer",
+        "google_tag_manager"
+      ],
+      "categories": [
+        35
+      ]
+    },
+    "Hotjar": {
+      "scripts": [
+        "static\\.hotjar\\.com/c/hotjar-"
+      ],
+      "html": [
+        "hotjar",
+        "hj\\("
+      ],
+      "js": [
+        "hj",
+        "hjBootstrap"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Mixpanel": {
+      "scripts": [
+        "cdn\\.mxpnl\\.com/libs/mixpanel",
+        "api\\.mixpanel\\.com"
+      ],
+      "js": [
+        "mixpanel"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Segment": {
+      "scripts": [
+        "cdn\\.segment\\.com"
+      ],
+      "js": [
+        "analytics"
+      ],
+      "categories": [
+        10,
+        58
+      ]
+    },
+    "Matomo (Piwik)": {
+      "scripts": [
+        "matomo\\.js",
+        "piwik\\.js"
+      ],
+      "html": [
+        "_paq\\.push",
+        "matomo\\.php"
+      ],
+      "js": [
+        "_paq"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Plausible": {
+      "scripts": [
+        "plausible\\.io/js/"
+      ],
+      "html": [
+        "plausible\\.io"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Clarity": {
+      "scripts": [
+        "clarity\\.ms/tag/"
+      ],
+      "html": [
+        "clarity\\.ms"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Amplitude": {
+      "scripts": [
+        "cdn\\.amplitude\\.com"
+      ],
+      "js": [
+        "amplitude"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Heap": {
+      "scripts": [
+        "heap-\\d+\\.js",
+        "heapanalytics\\.com"
+      ],
+      "js": [
+        "heap"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "FullStory": {
+      "scripts": [
+        "fullstory\\.com/s/fs"
+      ],
+      "js": [
+        "FS"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "reCAPTCHA": {
+      "html": [
+        "recaptcha",
+        "g-recaptcha",
+        "google\\.com/recaptcha"
+      ],
+      "scripts": [
+        "recaptcha/api\\.js",
+        "recaptcha/enterprise\\.js"
+      ],
+      "categories": [
+        16
+      ]
+    },
+    "hCaptcha": {
+      "html": [
+        "hcaptcha",
+        "h-captcha"
+      ],
+      "scripts": [
+        "hcaptcha\\.com/.*\\.js"
+      ],
+      "categories": [
+        16
+      ]
+    },
+    "Turnstile": {
+      "html": [
+        "turnstile",
+        "cf-turnstile"
+      ],
+      "scripts": [
+        "challenges\\.cloudflare\\.com"
+      ],
+      "categories": [
+        16
+      ],
+      "implies": [
+        "Cloudflare"
+      ]
+    },
+    "PerimeterX": {
+      "scripts": [
+        "perimeterx",
+        "px-cdn",
+        "px-cloud\\.net"
+      ],
+      "cookies": [
+        "_px",
+        "pxcts"
+      ],
+      "categories": [
+        16
+      ]
+    },
+    "DataDome": {
+      "scripts": [
+        "datadome\\.co"
+      ],
+      "cookies": [
+        "datadome"
+      ],
+      "categories": [
+        16
+      ]
+    },
+    "ModSecurity": {
+      "headers": {
+        "Server": "mod_security|NOYB"
+      },
+      "categories": [
+        16
+      ]
+    },
+    "Stripe": {
+      "scripts": [
+        "js\\.stripe\\.com/v\\d"
+      ],
+      "html": [
+        "stripe\\.com",
+        "Stripe\\.com",
+        "stripe-"
+      ],
+      "js": [
+        "Stripe"
+      ],
+      "categories": [
+        34
+      ]
+    },
+    "PayPal": {
+      "scripts": [
+        "paypalobjects\\.com",
+        "paypal\\.com/sdk"
+      ],
+      "html": [
+        "paypal\\.com",
+        "paypal-button"
+      ],
+      "js": [
+        "paypal"
+      ],
+      "categories": [
+        34
+      ]
+    },
+    "Braintree": {
+      "scripts": [
+        "js\\.braintreegateway\\.com"
+      ],
+      "js": [
+        "braintree"
+      ],
+      "categories": [
+        34
+      ],
+      "implies": [
+        "PayPal"
+      ]
+    },
+    "Square": {
+      "scripts": [
+        "squareup\\.com/paymentform",
+        "js\\.squarecdn\\.com"
+      ],
+      "categories": [
+        34
+      ]
+    },
+    "Adyen": {
+      "scripts": [
+        "checkoutshopper-live\\.adyen\\.com",
+        "adyen\\.com"
+      ],
+      "categories": [
+        34
+      ]
+    },
+    "Razorpay": {
+      "scripts": [
+        "checkout\\.razorpay\\.com"
+      ],
+      "js": [
+        "Razorpay"
+      ],
+      "categories": [
+        34
+      ]
+    },
+    "Klarna": {
+      "scripts": [
+        "x\\.klarnacdn\\.net"
+      ],
+      "html": [
+        "klarna"
+      ],
+      "categories": [
+        34
+      ]
+    },
+    "Intercom": {
+      "scripts": [
+        "widget\\.intercom\\.io",
+        "js\\.intercomcdn\\.com"
+      ],
+      "js": [
+        "Intercom"
+      ],
+      "categories": [
+        36
+      ]
+    },
+    "Drift": {
+      "scripts": [
+        "js\\.driftt\\.com"
+      ],
+      "js": [
+        "drift"
+      ],
+      "categories": [
+        36
+      ]
+    },
+    "Zendesk Chat": {
+      "scripts": [
+        "static\\.zdassets\\.com",
+        "zopim\\.com"
+      ],
+      "js": [
+        "zE",
+        "$zopim"
+      ],
+      "categories": [
+        36
+      ]
+    },
+    "LiveChat": {
+      "scripts": [
+        "cdn\\.livechatinc\\.com"
+      ],
+      "js": [
+        "LiveChatWidget",
+        "LC_API"
+      ],
+      "categories": [
+        36
+      ]
+    },
+    "Crisp": {
+      "scripts": [
+        "client\\.crisp\\.chat"
+      ],
+      "js": [
+        "$crisp",
+        "CRISP_WEBSITE_ID"
+      ],
+      "categories": [
+        36
+      ]
+    },
+    "Tawk.to": {
+      "scripts": [
+        "embed\\.tawk\\.to"
+      ],
+      "js": [
+        "Tawk_API"
+      ],
+      "categories": [
+        36
+      ]
+    },
+    "HubSpot": {
+      "scripts": [
+        "js\\.hs-scripts\\.com",
+        "js\\.hsforms\\.net"
+      ],
+      "html": [
+        "hubspot",
+        "hs-analytics",
+        "hsforms"
+      ],
+      "js": [
+        "_hsq",
+        "hbspt"
+      ],
+      "categories": [
+        25,
+        37,
+        60
+      ]
+    },
+    "Crisp (Email)": {
+      "scripts": [
+        "email\\.crisp\\.chat"
+      ],
+      "categories": [
+        46
+      ]
+    },
+    "Google Font API": {
+      "html": [
+        "fonts\\.googleapis\\.com",
+        "fonts\\.gstatic\\.com"
+      ],
+      "categories": [
+        17
+      ]
+    },
+    "Font Awesome": {
+      "html": [
+        "fontawesome",
+        "font-awesome",
+        "fa-"
+      ],
+      "scripts": [
+        "fontawesome",
+        "font-awesome"
+      ],
+      "categories": [
+        17
+      ]
+    },
+    "Typekit": {
+      "scripts": [
+        "use\\.typekit\\.net"
+      ],
+      "categories": [
+        17
+      ]
+    },
+    "Material Icons": {
+      "html": [
+        "material-icons",
+        "fonts\\.googleapis\\.com/icon"
+      ],
+      "categories": [
+        17
+      ]
+    },
+    "Optimizely": {
+      "scripts": [
+        "cdn\\.optimizely\\.com"
+      ],
+      "js": [
+        "optimizely"
+      ],
+      "categories": [
+        56
+      ]
+    },
+    "VWO": {
+      "scripts": [
+        "dev\\.visualwebsiteoptimizer\\.com"
+      ],
+      "js": [
+        "_vwo_code",
+        "VWO"
+      ],
+      "categories": [
+        56
+      ]
+    },
+    "Kissmetrics": {
+      "scripts": [
+        "scripts\\.kissmetrics\\.com"
+      ],
+      "js": [
+        "_kmq"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Amazon Web Services": {
+      "headers": {
+        "Server": "AmazonS3|awselb",
+        "X-Amz-Request-Id": ".+",
+        "X-Amz-Bucket-Region": "."
+      },
+      "categories": [
+        42
+      ]
+    },
+    "Heroku": {
+      "headers": {
+        "Server": "Heroku",
+        "Via": "vegur"
+      },
+      "categories": [
+        41
+      ]
+    },
+    "Vercel": {
+      "headers": {
+        "Server": "Vercel",
+        "X-Vercel-Id": ".+"
+      },
+      "categories": [
+        41,
+        27
+      ]
+    },
+    "Netlify": {
+      "headers": {
+        "Server": "Netlify",
+        "X-Nf-Request-Id": ".+"
+      },
+      "categories": [
+        41,
+        27
+      ]
+    },
+    "Firebase": {
+      "html": [
+        "firebaseapp\\.com",
+        "firebase\\.js"
+      ],
+      "categories": [
+        41
+      ],
+      "implies": [
+        "Google Cloud"
+      ]
+    },
+    "DigitalOcean": {
+      "headers": {
+        "Server": "DigitalOcean"
+      },
+      "categories": [
+        42
+      ]
+    },
+    "Google Cloud": {
+      "headers": {
+        "Via": "1\\.1 google",
+        "Server": "Golfe2|GSE"
+      },
+      "categories": [
+        42
+      ]
+    },
+    "Azure": {
+      "headers": {
+        "X-Azure-Ref": ".+",
+        "X-Ms-Request-Id": ".+"
+      },
+      "categories": [
+        42,
+        41
+      ]
+    },
+    "Cloudflare Pages": {
+      "headers": {
+        "Server": "cloudflare",
+        "cf-pages": "."
+      },
+      "categories": [
+        41
+      ],
+      "implies": [
+        "Cloudflare"
+      ]
+    },
+    "YouTube": {
+      "html": [
+        "youtube\\.com/embed",
+        "ytimg\\.com"
+      ],
+      "categories": [
+        14
+      ]
+    },
+    "Vimeo": {
+      "scripts": [
+        "player\\.vimeo\\.com"
+      ],
+      "html": [
+        "vimeo\\.com/video"
+      ],
+      "categories": [
+        14
+      ]
+    },
+    "Video.js": {
+      "scripts": [
+        "video(?:\\.js|\\.min\\.js)",
+        "vjs-zoom"
+      ],
+      "html": [
+        "video-js",
+        "vjs-big-play-button"
+      ],
+      "js": [
+        "videojs"
+      ],
+      "categories": [
+        14
+      ]
+    },
+    "JW Player": {
+      "scripts": [
+        "jwplayer",
+        "jwpcdn"
+      ],
+      "js": [
+        "jwplayer"
+      ],
+      "categories": [
+        14
+      ]
+    },
+    "HLS.js": {
+      "scripts": [
+        "hls(?:\\.min)?\\.js"
+      ],
+      "js": [
+        "Hls"
+      ],
+      "categories": [
+        14
+      ]
+    },
+    "Google Maps": {
+      "scripts": [
+        "maps\\.googleapis\\.com/maps/api"
+      ],
+      "html": [
+        "maps\\.google\\.com",
+        "maps\\.googleapis\\.com"
+      ],
+      "js": [
+        "google.maps"
+      ],
+      "categories": [
+        30
+      ]
+    },
+    "Leaflet": {
+      "scripts": [
+        "leaflet(?:\\.min)?\\.(?:js|css)"
+      ],
+      "js": [
+        "L.version"
+      ],
+      "categories": [
+        30
+      ]
+    },
+    "Mapbox": {
+      "scripts": [
+        "api\\.mapbox\\.com"
+      ],
+      "js": [
+        "mapboxgl"
+      ],
+      "categories": [
+        30
+      ]
+    },
+    "OpenStreetMap": {
+      "html": [
+        "openstreetmap\\.org",
+        "tile\\.openstreetmap"
+      ],
+      "categories": [
+        30
+      ]
+    },
+    "Vite": {
+      "html": [
+        "/@vite/client",
+        "/vite/"
+      ],
+      "scripts": [
+        "/@vite/client"
+      ],
+      "categories": [
+        12
+      ]
+    },
+    "ESLint": {
+      "html": [
+        "eslint-disable"
+      ],
+      "categories": [
+        39
+      ]
+    },
+    "Prettier": {
+      "html": [
+        "prettier-ignore"
+      ],
+      "categories": [
+        39
+      ]
+    },
+    "Open Graph": {
+      "meta": {
+        "og:title": ".+",
+        "og:description": ".+"
+      },
+      "categories": [
+        39
+      ]
+    },
+    "Twitter Cards": {
+      "meta": {
+        "twitter:card": ".+",
+        "twitter:title": ".+"
+      },
+      "categories": [
+        39
+      ]
+    },
+    "GraphQL": {
+      "html": [
+        "graphql",
+        "/graphql"
+      ],
+      "url": [
+        "/graphql",
+        "/gql"
+      ],
+      "categories": [
+        39
+      ]
+    },
+    "WebSocket": {
+      "html": [
+        "WebSocket",
+        "wss://"
+      ],
+      "categories": [
+        39
+      ]
+    },
+    "Service Worker": {
+      "html": [
+        "serviceWorker",
+        "service-worker"
+      ],
+      "url": [
+        "/service-worker.js",
+        "/sw.js"
+      ],
+      "categories": [
+        39
+      ]
+    },
+    "AMP": {
+      "html": [
+        "<html[^>]+amp",
+        "cdn\\.ampproject\\.org"
+      ],
+      "categories": [
+        39
+      ]
+    },
+    "Progressive Web App": {
+      "html": [
+        "manifest\\.json",
+        "<meta[^>]+theme-color"
+      ],
+      "url": [
+        "/manifest.json",
+        "/manifest.webmanifest"
+      ],
+      "categories": [
+        39
+      ]
+    },
+    "Lightbox": {
+      "html": [
+        "lightbox",
+        "featherlight",
+        "fancybox"
+      ],
+      "categories": [
+        5
+      ]
+    },
+    "Swiper": {
+      "scripts": [
+        "swiper(?:\\.min)?\\.(?:js|css)"
+      ],
+      "html": [
+        "swiper-container",
+        "swiper-slide",
+        "class=\\\"swiper"
+      ],
+      "js": [
+        "Swiper"
+      ],
+      "categories": [
+        5
+      ]
+    },
+    "Slick Carousel": {
+      "html": [
+        "slick-carousel",
+        "slick-theme",
+        "class=\\\"slick-"
+      ],
+      "scripts": [
+        "slick(?:\\.min)?\\.(?:js|css)"
+      ],
+      "categories": [
+        5
+      ]
+    },
+    "OWL Carousel": {
+      "html": [
+        "owl-carousel"
+      ],
+      "categories": [
+        5
+      ]
+    },
+    "Cookie Consent": {
+      "html": [
+        "cookie-consent",
+        "cookie-banner",
+        "CookieConsent",
+        "gdpr-consent",
+        "cc-banner"
+      ],
+      "categories": [
+        57
+      ]
+    },
+    "OneTrust": {
+      "scripts": [
+        "onetrust\\.com",
+        "optanon"
+      ],
+      "cookies": [
+        "OptanonConsent"
+      ],
+      "categories": [
+        57
+      ]
+    },
+    "Osano": {
+      "scripts": [
+        "cmp\\.osano\\.com"
+      ],
+      "categories": [
+        57
+      ]
+    },
+    "Mailchimp": {
+      "scripts": [
+        "list-manage\\.com",
+        "mailchimp\\.com"
+      ],
+      "html": [
+        "mailchimp",
+        "mc\\.us\\d+\\.list-manage\\.com"
+      ],
+      "categories": [
+        25
+      ]
+    },
+    "SendGrid": {
+      "scripts": [
+        "sendgrid"
+      ],
+      "html": [
+        "sendgrid"
+      ],
+      "categories": [
+        46
+      ]
+    },
+    "Mailgun": {
+      "html": [
+        "mailgun"
+      ],
+      "categories": [
+        46
+      ]
+    },
+    "Elastic Kibana": {
+      "html": [
+        "kibana"
+      ],
+      "url": [
+        "/app/kibana",
+        "/api/status"
+      ],
+      "categories": [
+        28
+      ],
+      "implies": [
+        "Elasticsearch"
+      ]
+    },
+    "Grafana": {
+      "html": [
+        "grafana",
+        "grafana-app"
+      ],
+      "url": [
+        "/api/dashboards/home",
+        "/api/org"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Prometheus": {
+      "url": [
+        "/api/v1/query",
+        "/graph"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Jenkins": {
+      "html": [
+        "Jenkins",
+        "jenkins"
+      ],
+      "headers": {
+        "X-Jenkins": "([\\d.]+)"
+      },
+      "version": "X-Jenkins:\\s*([\\d.]+)",
+      "categories": [
+        9
+      ]
+    },
+    "GitLab": {
+      "cookies": [
+        "_gitlab_session"
+      ],
+      "html": [
+        "gitlab",
+        "gon\\.gitlab"
+      ],
+      "categories": [
+        9,
+        13
+      ]
+    },
+    "Jira": {
+      "html": [
+        "jira",
+        "Atlassian"
+      ],
+      "cookies": [
+        "atlassian.xsrf.token",
+        "JSESSIONID"
+      ],
+      "categories": [
+        13
+      ]
+    },
+    "Confluence": {
+      "html": [
+        "confluence",
+        "Atlassian"
+      ],
+      "categories": [
+        4
+      ]
+    },
+    "Sentry": {
+      "scripts": [
+        "browser\\.sentry-cdn\\.com",
+        "sentry\\.io"
+      ],
+      "js": [
+        "Sentry",
+        "__SENTRY__"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Bugsnag": {
+      "scripts": [
+        "bugsnag"
+      ],
+      "js": [
+        "Bugsnag"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "New Relic": {
+      "scripts": [
+        "js-agent\\.newrelic\\.com",
+        "bam\\.nr-data\\.net"
+      ],
+      "js": [
+        "NREUM",
+        "newrelic"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "DataDog": {
+      "scripts": [
+        "datadog-rum",
+        "datadoghq\\.com"
+      ],
+      "js": [
+        "DD_RUM"
+      ],
+      "categories": [
+        10
+      ]
+    },
+    "Algolia": {
+      "scripts": [
+        "cdn\\.jsdelivr\\.net/npm/@algolia",
+        "algoliasearch"
+      ],
+      "html": [
+        "algolia"
+      ],
+      "js": [
+        "algoliasearch",
+        "algoliaConfig"
+      ],
+      "categories": [
+        28
+      ]
+    },
+    "Elasticsearch (Search)": {
+      "scripts": [
+        "elastic"
+      ],
+      "js": [
+        "elastic"
+      ],
+      "categories": [
+        28
+      ],
+      "implies": [
+        "Elasticsearch"
+      ]
+    },
+    "Disqus": {
+      "scripts": [
+        "disqus\\.com/embed\\.js",
+        "disqus_shortname"
+      ],
+      "js": [
+        "DISQUS"
+      ],
+      "categories": [
+        15
+      ]
+    },
+    "AddThis": {
+      "scripts": [
+        "addthis\\.com/js/"
+      ],
+      "js": [
+        "addthis"
+      ],
+      "categories": [
+        5
+      ]
+    },
+    "ShareThis": {
+      "scripts": [
+        "platform-api\\.sharethis\\.com"
+      ],
+      "categories": [
+        5
+      ]
+    },
+    "Privy": {
+      "scripts": [
+        "privy\\.com"
+      ],
+      "categories": [
+        25
+      ]
+    },
+    "Trustpilot": {
+      "scripts": [
+        "widget\\.trustpilot\\.com"
+      ],
+      "html": [
+        "trustpilot"
+      ],
+      "categories": [
+        5
+      ]
+    },
+    "Gorgias": {
+      "scripts": [
+        "config\\.gorgias\\.chat"
+      ],
+      "categories": [
+        36
+      ]
+    },
+    "Freshdesk": {
+      "scripts": [
+        "freshdesk\\.com"
+      ],
+      "html": [
+        "freshdesk"
+      ],
+      "categories": [
+        36
+      ]
+    }
+  },
+  "categories": {
+    "1": "CMS",
+    "2": "Message Boards",
+    "3": "Database Managers",
+    "4": "Documentation Tools",
+    "5": "Widgets",
+    "6": "Ecommerce",
+    "7": "Photo Galleries",
+    "8": "Wikis",
+    "9": "Hosting Panels",
+    "10": "Analytics",
+    "11": "Blogs",
+    "12": "JavaScript Frameworks",
+    "13": "Issue Trackers",
+    "14": "Video Players",
+    "15": "Comment Systems",
+    "16": "Security",
+    "17": "Font Scripts",
+    "18": "Web Frameworks",
+    "19": "LMS",
+    "20": "Web Servers",
+    "21": "Cache Tools",
+    "22": "Rich Text Editors",
+    "23": "JavaScript Graphics",
+    "24": "Mobile Frameworks",
+    "25": "Marketing Automation",
+    "26": "Webmail",
+    "27": "CDN",
+    "28": "Search Engines",
+    "29": "Marketing",
+    "30": "Maps",
+    "31": "Advertising Networks",
+    "32": "Network Services",
+    "33": "Media Servers",
+    "34": "Payment Processors",
+    "35": "Tag Managers",
+    "36": "Live Chat",
+    "37": "CRM",
+    "38": "Databases",
+    "39": "Miscellaneous",
+    "40": "Web Server Extensions",
+    "41": "PaaS",
+    "42": "IaaS",
+    "43": "Reverse Proxies",
+    "44": "Load Balancers",
+    "45": "Operating Systems",
+    "46": "Email",
+    "47": "Programming Languages",
+    "48": "Spell Checkers",
+    "49": "Appointment Scheduling",
+    "50": "Static Site Generators",
+    "51": "User Onboarding",
+    "52": "Geolocation",
+    "53": "Authentication",
+    "54": "Business Tools",
+    "55": "Accessibility",
+    "56": "A/B Testing",
+    "57": "Cookie Banners",
+    "58": "Customer Data Platform",
+    "59": "Digital Asset Management",
+    "60": "Form Builders"
+  }
+}
